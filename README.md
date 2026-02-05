@@ -6,5 +6,5 @@
 - Scss
 
 ## Run locally
-npm install
+npm install<br>
 npm run dev
