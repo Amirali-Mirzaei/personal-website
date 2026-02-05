@@ -1,0 +1,14 @@
+# Nuxt / Node
+node_modules
+.nuxt
+.output
+dist
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Env
+.env
+.env.*
