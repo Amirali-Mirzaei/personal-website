@@ -6,7 +6,7 @@
      <br><br>
      <div class="card">
        <h1></h1>
-       <h1><FontAwesomeIcon :icon="['fas', 'envelope']" /> Email: amiralimirzaei111@gmail.com</h1>
+       <h1><FontAwesomeIcon :icon="['fas', 'envelope']" /> Email: mirzaeiamirali111@gmail.com</h1>
      </div>
 </template>
 
