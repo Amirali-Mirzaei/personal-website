@@ -41,7 +41,7 @@ onMounted(() => {
 })
 
 const onIntroFinished = () => {
-  alertMessage.value = 'Hint: for skills and badges section use your mouse!'
+  alertMessage.value = 'Hint: hover or tap on the skills and Earned section!'
   showalert.value = true
 }
 </script>
