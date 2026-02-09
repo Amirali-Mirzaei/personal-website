@@ -18,11 +18,5 @@ export default defineNuxtConfig({
         }
       ]
     }
-  },
-   ssr: true,
-    nitro: {
-     preset: 'static',
-      preset: 'netlify', 
-       compatibilityDate: '2026-02-09'
   }
 })
