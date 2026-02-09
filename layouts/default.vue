@@ -25,7 +25,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
     <main>
       <slot />
     </main>
-
+   
   
 </template>
 
