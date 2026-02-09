@@ -29,7 +29,7 @@
 <script setup>
 import { ref } from 'vue'
 import First from '~/assets/images/First.jpg'
-import Second from '~/assets/images/Second.jpg'
+import Second from '~/assets/images/Second.JPG'
 import Third from '~/assets/images/Third.jpg'
 
 const slides = ref([
