@@ -42,6 +42,7 @@ import { ref } from 'vue';
 </script>
 
 <style lang="scss" scoped>
+
 .card {
 display: grid;
 grid-template-columns: repeat(auto-fit, minmax(14px, 1fr));
@@ -61,7 +62,7 @@ border-radius: 10px;
 color: black;
 background-color: white;
 padding: 20px;
-transform: translateX(-250%);
+transform: translateX(-130%);
 transition: .4s ease;
 opacity: 0;
 z-index: 1;
@@ -81,7 +82,7 @@ border-radius: 10px;
 background-color: black;
 color: red;
 padding: 20px;
-transform: translateX(250%);
+transform: translateX(130%);
 transition: .4s ease;
 opacity: 0;
 z-index: 1;
@@ -101,7 +102,7 @@ border-radius: 10px;
 color: rgba(10, 190, 214, 0.89);
 background-color: whitesmoke;
 padding: 20px;
-transform: translateY(-250%);
+transform: translateY(-130%);
 transition: .4s ease;
 opacity: 0;
 z-index: 1;
@@ -156,7 +157,7 @@ border-radius: 15px;
 border: solid 2px $transport;
 opacity: 0.7;
 transition: all .3s;  
-  &:hover {
+  &:hover { 
   opacity: 1;
   border-color: $primary-hover;  
   }
@@ -166,5 +167,33 @@ p {
 font-size: 13px;
 font-weight: 600;
 margin: 0;
+}
+
+.sidebarc,
+.sidebart,
+.sidebars {
+  width: clamp(150px, 20vw, 210px); 
+  height: auto; 
+  padding: 1em;
+  border-radius: 10px;
+}
+
+.sidebarc p,
+.sidebart p,
+.sidebars p {
+  font-size: clamp(12px, 1.5vw, 15px); 
+  margin: 0;
+  line-height: 1.4;
+}
+
+@media (max-width: 600px) {
+  .sidebarc,
+  .sidebart,
+  .sidebars {
+    width: 90%; 
+    left: 50%;
+    transform: translateX(-50%); 
+    font-size: 14px;
+  }
 }
 </style>

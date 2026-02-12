@@ -26,7 +26,7 @@ const alertMessage = ref('')
 
 onMounted(() => {
   let index = 0
-  const typingSpeed = 250
+  const typingSpeed = 300
 
   const timer = setInterval(() => {
     displayedText.value += fullText[index]
@@ -35,7 +35,7 @@ onMounted(() => {
       clearInterval(timer)
       setTimeout(() => {
         show.value = false
-      }, 1100)
+      }, 1500)
     }
   }, typingSpeed)
 })
@@ -130,6 +130,5 @@ font-size: clamp(1rem, 2.5vw, 1.5rem);
     color: white;
     }
   }
-}   
-
+}
 </style>

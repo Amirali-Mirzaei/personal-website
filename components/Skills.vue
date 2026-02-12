@@ -59,6 +59,7 @@ import { ref } from 'vue';
 </script>
 
 <style lang="scss" scoped>
+
 .card {
 display: grid;
 grid-template-columns: repeat(auto-fit, minmax(14px, 1fr));
@@ -78,7 +79,7 @@ border-radius: 10px;
 color: black;
 background-color: #ffc200;
 padding: 20px;
-transform: translateX(-250%);
+transform: translateX(-130%);
 transition: .4s ease;
 opacity: 0;
 z-index: 1;
@@ -98,7 +99,7 @@ border-radius: 10px;
 background-color: $primary-dark;
 color: $bg-dark;
 padding: 20px;
-transform: translateX(250%);
+transform: translateX(130%);
 transition: .4s ease;
 opacity: 0;
 z-index: 1;
@@ -118,7 +119,7 @@ border-radius: 10px;
 color: white;
 background-color: #2371d8;
 padding: 20px;
-transform: translateX(-250%);
+transform: translateX(-130%);
 transition: .4s ease;
 opacity: 0;
 z-index: 1;
@@ -138,7 +139,7 @@ border-radius: 10px;
 background-color: rgb(212, 13, 13);
 color: white;
 padding: 20px;
-transform: translateX(250%);
+transform: translateX(130%);
 transition: .4s ease;
 opacity: 0;
 z-index: 1;
@@ -158,7 +159,7 @@ border-radius: 10px;
 color: $primary-dark;
 background-color: white;
 padding: 20px;
-transform: translateY(-250%);
+transform: translateY(-130%);
 transition: .4s ease;
 opacity: 0;
 z-index: 1;
@@ -170,7 +171,7 @@ opacity: 1;
 }
 
 div#js {
-background: url('~/assets/images/js.png');
+background: url('~/assets/images/Js.png');
 background-size: 140px;
 background-position: 10px 90px;
 height: 90px;
@@ -255,5 +256,37 @@ p {
 font-size: 14px;
 font-weight: 600;
 margin: 0;
+}
+
+.sidebarj,
+.sidebarv,
+.sidebarc,
+.sidebarh,
+.sidebart {
+  width: clamp(150px, 20vw, 200px); 
+  height: auto; 
+}
+
+.sidebarj p,
+.sidebarv p,
+.sidebarc p,
+.sidebarh p,
+.sidebart p {
+  font-size: clamp(12px, 1.5vw, 15px); 
+  margin: 0;
+  line-height: 1.4;
+}
+
+@media (max-width: 600px) {
+  .sidebarj,
+  .sidebarv,
+  .sidebarc,
+  .sidebarh,
+  .sidebart {
+    width: 90%; 
+    left: 50%;
+    transform: translateX(-50%); 
+    font-size: 14px;
+  }
 }
 </style>
