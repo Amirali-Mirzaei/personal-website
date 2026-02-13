@@ -102,7 +102,7 @@ border-radius: 10px;
 color: rgba(10, 190, 214, 0.89);
 background-color: whitesmoke;
 padding: 20px;
-transform: translateY(-130%);
+transform: translateY(-300%);
 transition: .4s ease;
 opacity: 0;
 z-index: 1;

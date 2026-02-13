@@ -86,6 +86,7 @@ animation: blink 1s steps(1) infinite;
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.5s ease;
+   pointer-events: none;
 }
 
 .fade-enter-from,
@@ -105,14 +106,14 @@ left: 50%;
 transform: translate(-50%, -50%);
 background-color: $primary;
 color: $bg-dark;
-padding: 18px;
+padding: 10px;
 border-radius: 15px;
-font-size: 1.5rem;
+font-size: 1rem;
 text-align: center;
 z-index: 1;
 width: 100%;
 max-width: 800px;
-font-size: clamp(1rem, 2.5vw, 1.5rem);
+font-size: clamp(1rem, 2.5vw, 1.4rem);
   button {
     margin-top: 1rem;
     padding: 0.5rem 1rem;

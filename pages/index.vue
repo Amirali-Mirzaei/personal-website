@@ -73,7 +73,9 @@ const activeTabComponent = computed(() => {
 .tabs {
 display: flex;
 justify-content: center;
-margin: 0;
+gap: 0;
+margin-top: 40px;
+flex-wrap: wrap;
 }
 
 .tab-content {
@@ -89,7 +91,7 @@ backdrop-filter: blur(6px);
 button {
 background-color: $secondary;
 font-size: 150%;
-margin: 10% 0 0 0;
+margin-top: 83px;
 color: $primary;
 border: 2px solid $primary;
 transition: all .5s;  
@@ -134,6 +136,13 @@ border-bottom-right-radius: 8%;
 .fade-slide-leave-to {
   opacity: 0;
   transform: translateY(-12px);
+}
+
+@media (max-width: 600px) {
+  button {
+    width: 100%;
+    margin-top: 10px;
+  }
 }
 </style>
 
