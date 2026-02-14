@@ -278,15 +278,32 @@ margin: 0;
 }
 
 @media (max-width: 600px) {
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+  }
+
+  #js, #vue, #nuxt, #css, #html {
+    margin: 0 !important;
+  }
+
   .sidebarj,
   .sidebarv,
   .sidebarc,
   .sidebarh,
   .sidebart {
-    width: 90%; 
-    left: 50%;
-    transform: translateX(-50%); 
+    display: block;      
+    width: 80%;           
+    max-width: 300px;     
+    position: relative;   
+    transform: none;     
+    opacity: 1;           
+    margin: 8px auto 0;  
     font-size: 14px;
   }
 }
+
 </style>

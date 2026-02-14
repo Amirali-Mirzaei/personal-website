@@ -62,9 +62,9 @@ watch(showIntro, (val) => {
 const activeTabComponent = computed(() => {
   return {
     about: About,
-    skills: Skills,
-    badges: Badges,
-    contact: Contact
+     skills: Skills,
+      badges: Badges,
+       contact: Contact
   }[activeTab.value]
 })
 </script>
@@ -140,8 +140,9 @@ border-bottom-right-radius: 8%;
 
 @media (max-width: 600px) {
   button {
-    width: 100%;
+    width: 70%;
     margin-top: 10px;
+    border-radius: 10px;
   }
 }
 </style>

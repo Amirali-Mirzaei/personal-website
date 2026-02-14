@@ -1,4 +1,5 @@
-<template>
+<template> 
+
   <div class="slideshow-container">
     <div
       v-for="(slide, index) in slides"
@@ -77,7 +78,7 @@ img {
 }
 
 .slideshow-container {
-  max-width: 350px;
+  max-width: 340px;
   position: relative;
   margin: auto;
 }

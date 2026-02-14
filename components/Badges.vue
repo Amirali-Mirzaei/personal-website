@@ -172,7 +172,7 @@ margin: 0;
 .sidebarc,
 .sidebart,
 .sidebars {
-  width: clamp(150px, 20vw, 210px); 
+  width: clamp(150px, 20vw, 205px); 
   height: auto; 
   padding: 1em;
   border-radius: 10px;
@@ -187,13 +187,32 @@ margin: 0;
 }
 
 @media (max-width: 600px) {
+  .card {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  #chess,
+  #tk,
+  #swim {
+    margin: 0 !important;
+ }
+}
+
+@media (max-width: 600px) {
   .sidebarc,
   .sidebart,
   .sidebars {
-    width: 90%; 
-    left: 50%;
-    transform: translateX(-50%); 
+    display: block;      
+    width: 80%;           
+    max-width: 300px;     
+    position: relative;   
+    transform: none;     
+    opacity: 1;           
+    margin: 8px auto 0;  
     font-size: 14px;
   }
 }
+
 </style>

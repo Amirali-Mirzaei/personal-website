@@ -30,4 +30,10 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
     background-color: $primary-dark;
    }
 }    
+
+@media (max-width: 600px) {
+  .card {
+    font-size: 9px;
+  }
+}
 </style>
