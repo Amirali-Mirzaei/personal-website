@@ -41,7 +41,7 @@ onMounted(() => {
 })
 
 const onIntroFinished = () => {
-  alertMessage.value = 'Hint: hover or tap on the skills and Earned section!'
+  alertMessage.value = 'Got a mouse? Hover over Skills and Earned!'
   showalert.value = true
 }
 </script>
@@ -108,7 +108,7 @@ background-color: $primary;
 color: $bg-dark;
 padding: 10px;
 border-radius: 15px;
-font-size: 1rem;
+font-size: 1.5rem;
 text-align: center;
 z-index: 1;
 width: 100%;
@@ -130,6 +130,12 @@ font-size: clamp(1rem, 2.5vw, 1.4rem);
     background: $bg-dark; 
     color: white;
     }
+  }
+}
+
+@media (max-width: 600px) {
+  .intro h1 {
+    font-size: 3.3rem;
   }
 }
 </style>

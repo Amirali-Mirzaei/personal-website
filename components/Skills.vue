@@ -6,7 +6,7 @@
           @mouseenter="openj= true"
           @mouseleave="openj= false">
         </div> 
-          <div class="sidebarj" :class="{ openj }">
+         <div class="sidebarj" :class="{ openj }">
            <p>I love turning complex problems into simple, elegant JavaScript solutions</p>
           </div>
 
@@ -80,7 +80,7 @@ color: black;
 background-color: #ffc200;
 padding: 20px;
 transform: translateX(-130%);
-transition: .4s ease;
+transition: all .4s ease;
 opacity: 0;
 z-index: 1;
 }
@@ -181,6 +181,8 @@ border: solid 2px $transport;
 opacity: 0.7;
 transition: all .3s;
 margin: 0 0 0 25%;
+position: relative;
+display: inline-block;
   &:hover {
   opacity: 1;
   border-color: $primary-hover;  
