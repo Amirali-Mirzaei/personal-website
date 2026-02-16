@@ -94,7 +94,7 @@ font-size: 150%;
 margin-top: 83px;
 color: $primary;
 border: 2px solid $primary;
-transition: all .5s;  
+transition: all .3s;  
 font-family: $font-base;
 border-radius: 0;
 padding: 10px;

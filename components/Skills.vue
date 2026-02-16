@@ -3,59 +3,118 @@
   <div class="card"> 
 
         <div id="js"
-          @mouseenter="openj= true"
-          @mouseleave="openj= false">
+             @mouseenter="openj= true"
+             @mouseleave="closeWithDelay('j')">
         </div> 
-         <div class="sidebarj" :class="{ openj }">
-           <p>I love turning complex problems into simple, elegant JavaScript solutions</p>
+
+        <Transition name="slide-left">
+          <div
+             v-if="openj || isMobile"
+             class="sidebarj">
+            <p>I love turning complex problems into simple, 
+            elegant JavaScript solutions</p>
           </div>
+        </Transition>
 
         <div id="vue"
-         @mouseenter="openv= true"
-         @mouseleave="openv= false">
+             @mouseenter="openv= true"
+             @mouseleave="closeWithDelay('v')">
         </div>
-           <div class="sidebarv" :class="{ openv }">
-            <p>Crafting reactive, component-driven interfaces with Vue.js that feel alive and intuitive</p>
-        </div> 
+
+        <Transition name="slide-right">
+           <div 
+              v-if="openv || isMobile"
+              class="sidebarv">
+             <p>Crafting reactive, component-driven interfaces with Vue.
+              js that feel alive and intuitive</p>
+         </div> 
+        </Transition>
         </div><br>
 
     <div class="card">
+
      <div id="css"
-      @mouseenter="openc= true"
-      @mouseleave="openc= false"> 
+          @mouseenter="openc= true"
+          @mouseleave="closeWithDelay('c')"> 
      </div>
-       <div class="sidebarc" :class="{ openc }">
-        <p>Turning code into visually stunning and intuitive user experiences with CSS</p>
+
+     <Transition name="slide-left">
+       <div
+           v-if="openc || isMobile"
+           class="sidebarc">
+         <p>Turning code into visually stunning and intuitive user experiences with CSS</p>
        </div>
+     </Transition>
 
      <div id="nuxt"
-       @mouseenter="opent= true" 
-       @mouseleave="opent= false">
+          @mouseenter="opent= true" 
+          @mouseleave="closeWithDelay('t')">
       </div>
-        <div class="sidebart" :class="{ opent }">
-         <p>Building high performance Vue apps with Nuxt.js for seamless user experiences</p>
+
+      <Transition name="slide-top">
+        <div  
+           v-if="opent || isMobile"
+           class="sidebart">
+         <p>Building high performance Vue apps with Nuxt.
+          js for seamless user experiences</p>
          </div>
+      </Transition>
 
      <div id="html"
-       @mouseenter="openh= true"
-       @mouseleave="openh= false">
+          @mouseenter="openh= true"
+          @mouseleave="closeWithDelay('h')">
       </div>
-      <div class="sidebarh" :class="{ openh }">
-        <p>Structuring the web with semantic, clean, and accessible HTML for solid foundations</p>
-      </div>
+
+      <Transition name="slide-right">
+       <div 
+           v-if="openh || isMobile"
+           class="sidebarh">
+         <p>Structuring the web with semantic, clean, 
+         and accessible HTML for solid foundations</p>
+       </div>
+      </Transition>
   </div> 
 
 </template>
 
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue'
 
    const openj = ref(false)
     const openv = ref(false)
    const openc = ref(false)
  const openh = ref(false)
    const opent = ref(false) 
+
+   const isMobile = ref(false)
+let timer = null
+
+const checkMobile = () => {
+  isMobile.value = window.innerWidth <= 600
+}
+
+onMounted(() => {
+  checkMobile()
+  window.addEventListener('resize', checkMobile)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', checkMobile)
+})
+
+const closeWithDelay = (type) => {
+  if (isMobile.value) return
+
+  clearTimeout(timer)
+  timer = setTimeout(() => {
+    if (type === 'j') openj.value = false
+     if (type === 'v') openv.value = false
+      if (type === 'c') openc.value = false
+       if (type === 'h') openh.value = false
+        if (type === 't') opent.value = false
+  }, 30)
+}
 </script>
 
 <style lang="scss" scoped>
@@ -79,15 +138,7 @@ border-radius: 10px;
 color: black;
 background-color: #ffc200;
 padding: 20px;
-transform: translateX(-130%);
-transition: all .4s ease;
-opacity: 0;
 z-index: 1;
-}
-
-.sidebarj.openj {
-transform: translateX(0);
-opacity: 1;
 }
 
 .sidebarv {
@@ -99,15 +150,7 @@ border-radius: 10px;
 background-color: $primary-dark;
 color: $bg-dark;
 padding: 20px;
-transform: translateX(130%);
-transition: .4s ease;
-opacity: 0;
 z-index: 1;
-}
-
-.sidebarv.openv {
-transform: translateX(0);
-opacity: 1;  
 }
 
 .sidebarc {
@@ -119,15 +162,7 @@ border-radius: 10px;
 color: white;
 background-color: #2371d8;
 padding: 20px;
-transform: translateX(-130%);
-transition: .4s ease;
-opacity: 0;
 z-index: 1;
-}
-
-.sidebarc.openc {
-transform: translateX(0);
-opacity: 1;
 }
 
 .sidebarh {
@@ -139,15 +174,7 @@ border-radius: 10px;
 background-color: rgb(212, 13, 13);
 color: white;
 padding: 20px;
-transform: translateX(130%);
-transition: .4s ease;
-opacity: 0;
 z-index: 1;
-}
-
-.sidebarh.openh {
-transform: translateX(0);
-opacity: 1;  
 }
 
 .sidebart {
@@ -159,15 +186,7 @@ border-radius: 10px;
 color: $primary-dark;
 background-color: white;
 padding: 20px;
-transform: translateY(-300%);
-transition: .4s ease;
-opacity: 0;
 z-index: 1;
-}
-
-.sidebart.opent {
-transform: translateY(0);
-opacity: 1;
 }
 
 div#js {
@@ -261,37 +280,39 @@ margin: 0;
 }
 
 .sidebarj,
-.sidebarv,
-.sidebarc,
-.sidebarh,
-.sidebart {
-  width: clamp(150px, 20vw, 200px); 
-  height: auto; 
-}
-
-.sidebarj p,
-.sidebarv p,
-.sidebarc p,
-.sidebarh p,
-.sidebart p {
-  font-size: clamp(12px, 1.5vw, 15px); 
-  margin: 0;
-  line-height: 1.4;
-}
+ .sidebarv,
+  .sidebarc,
+   .sidebarh,
+    .sidebart {
+      width: clamp(150px, 20vw, 200px); 
+      height: auto; 
+    }
+       .sidebarj p,
+      .sidebarv p,
+     .sidebarc p,
+    .sidebarh p,
+   .sidebart p {
+     font-size: clamp(12px, 1.5vw, 15px); 
+     margin: 0;
+     line-height: 1.4;
+   }
+ 
 
 @media (max-width: 600px) {
-
   .card {
     display: flex;
     flex-direction: column;
     gap: 16px;
     align-items: center;
   }
-
   #js, #vue, #nuxt, #css, #html {
+    transform: none !important;
     margin: 0 !important;
+    opacity: 1 !important;
+    
   }
-
+}
+  @media (max-width: 600px) {
   .sidebarj,
   .sidebarv,
   .sidebarc,
@@ -301,11 +322,37 @@ margin: 0;
     width: 80%;           
     max-width: 300px;     
     position: relative;   
-    transform: none;     
+    transform: none;   
     opacity: 1;           
     margin: 8px auto 0;  
     font-size: 14px;
   }
 }
 
+.slide-left-enter-from,
+.slide-left-leave-to {
+  transform: translateX(-130%);
+  opacity: 0;
+}
+
+.slide-right-enter-from,
+.slide-right-leave-to {
+  transform: translateX(130%);
+  opacity: 0;
+}
+
+.slide-top-enter-from,
+.slide-top-leave-to {
+  transform: translateY(-250%);
+  opacity: 0;
+}
+
+.slide-left-enter-active,
+.slide-left-leave-active,
+.slide-right-enter-active,
+.slide-right-leave-active,
+.slide-top-enter-active,
+.slide-top-leave-active {
+  transition: 0.4s ease;
+}
 </style>

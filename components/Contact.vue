@@ -33,7 +33,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 @media (max-width: 600px) {
   .card {
-    font-size: 8px;
+    font-size: 5px;
   }
 }
 </style>

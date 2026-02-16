@@ -3,42 +3,86 @@
     <div class="card">
 
         <div id="chess"
-            @mouseenter="openc= true"
-            @mouseleave="openc= false">
+             @mouseenter="openc= true"
+             @mouseleave="closeWithDelay('c')">
         </div>
-           <div class="sidebarc" :class="{ openc }">
-             <p>I started playing chess when I was around seven. I couldn't win many medals, but I still try to be a contender in it</p>
-           </div>
 
+         <Transition name="slide-left">
+            <div 
+             v-if="openc || isMobile"
+             class="sidebarc">
+             <p>I started playing chess when I was around seven. I couldn't win many medals, 
+              but I still try to be a contender in it</p>
+           </div>
+         </Transition>
+         
         <div id="tk"
-            @mouseenter="opent= true"
-            @mouseleave="opent= false">
+             @mouseenter="opent = true"
+             @mouseleave="closeWithDelay('t')">
         </div>
-           <div class="sidebart" :class="{ opent }">
-              <p>I started Taekwondo when I was just five years old. Now, many years later, I am proud to hold the rank of 3rd Dan Black Belt</p>
-           </div>    
+
+            <Transition name="slide-right">
+                 <div 
+                  v-if="opent || isMobile"
+                  class="sidebart">
+                  <p>I started Taekwondo when I was just five years old. Now, many years later, 
+                  I am proud to hold the rank of 3rd Dan Black Belt</p>
+           </div>  
+          </Transition>  
         </div><br>
 
       <div class="card">
 
         <div id="swim"
-             @mouseenter="opens= true"
-             @mouseleave="opens= false">
-        </div>   
-           <div class="sidebars" :class="{ opens }">
-              <p>I started swimming when I was eight. Over the years, I’ve learned  different swimming styles as much as I could</p>
-           </div> 
-        </div>
+             @mouseenter="opens = true"
+             @mouseleave="closeWithDelay('s')">
+        </div>  
 
+            <Transition name="slide-top">
+           <div 
+              v-if="opens || isMobile"
+              class="sidebars">
+              <p>I started swimming when I was eight. Over the years, 
+              I’ve learned  different swimming styles as much as I could</p>
+           </div> 
+            </Transition> 
+        </div>
 </template>
 
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue'
 
- const openc = ref(false)
-  const opent = ref(false) 
- const opens = ref(false)
+const openc = ref(false)
+ const opent = ref(false)
+const opens = ref(false)
+
+const isMobile = ref(false)
+let timer = null
+
+const checkMobile = () => {
+  isMobile.value = window.innerWidth <= 600
+}
+
+onMounted(() => {
+  checkMobile()
+  window.addEventListener('resize', checkMobile)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', checkMobile)
+})
+
+const closeWithDelay = (type) => {
+  if (isMobile.value) return
+
+  clearTimeout(timer)
+  timer = setTimeout(() => {
+    if (type === 'c') openc.value = false
+     if (type === 't') opent.value = false
+      if (type === 's') opens.value = false
+  }, 30)
+}
 </script>
 
 <style lang="scss" scoped>
@@ -62,15 +106,7 @@ border-radius: 10px;
 color: black;
 background-color: white;
 padding: 20px;
-transform: translateX(-130%);
-transition: .4s ease;
-opacity: 0;
 z-index: 1;
-}
-
-.sidebarc.openc {
-transform: translateX(0);
-opacity: 1;
 }
 
 .sidebart {
@@ -82,15 +118,7 @@ border-radius: 10px;
 background-color: black;
 color: red;
 padding: 20px;
-transform: translateX(130%);
-transition: .4s ease;
-opacity: 0;
 z-index: 1;
-}
-
-.sidebart.opent {
-transform: translateX(0);
-opacity: 1;  
 }
 
 .sidebars {
@@ -102,15 +130,7 @@ border-radius: 10px;
 color: rgba(10, 190, 214, 0.89);
 background-color: whitesmoke;
 padding: 20px;
-transform: translateY(-300%);
-transition: .4s ease;
-opacity: 0;
 z-index: 1;
-}
-
-.sidebars.opens {
-transform: translateY(0);
-opacity: 1;
 }
 
 div#chess {
@@ -169,21 +189,20 @@ font-weight: 600;
 margin: 0;
 }
 
-.sidebarc,
-.sidebart,
-.sidebars {
-  width: clamp(150px, 20vw, 205px); 
-  height: auto; 
-  padding: 1em;
-  border-radius: 10px;
-}
-
-.sidebarc p,
-.sidebart p,
-.sidebars p {
-  font-size: clamp(12px, 1.5vw, 15px); 
-  margin: 0;
-  line-height: 1.4;
+ .sidebarc,
+  .sidebart,
+   .sidebars {
+    width: clamp(150px, 20vw, 205px); 
+    height: auto; 
+    padding: 1em;
+    border-radius: 10px;
+  }
+    .sidebarc p,
+   .sidebart p,
+  .sidebars p {
+    font-size: clamp(12px, 1.5vw, 15px); 
+    margin: 0;
+    line-height: 1.4;
 }
 
 @media (max-width: 600px) {
@@ -192,15 +211,13 @@ margin: 0;
     flex-direction: column;
     gap: 12px;
   }
-
-  #chess,
-  #tk,
-  #swim {
+  #chess, #tk, #swim {
     margin: 0 !important;
+    opacity: 1 !important;
  }
 }
 
-@media (max-width: 600px) {
+ @media (max-width: 600px) {
   .sidebarc,
   .sidebart,
   .sidebars {
@@ -213,6 +230,33 @@ margin: 0;
     margin: 8px auto 0;  
     font-size: 14px;
   }
+}
+
+.slide-left-enter-from,
+.slide-left-leave-to {
+  transform: translateX(-130%);
+  opacity: 0;
+}
+
+.slide-right-enter-from,
+.slide-right-leave-to {
+  transform: translateX(130%);
+  opacity: 0;
+}
+
+.slide-top-enter-from,
+.slide-top-leave-to {
+  transform: translateY(-250%);
+  opacity: 0;
+}
+
+.slide-left-enter-active,
+.slide-left-leave-active,
+.slide-right-enter-active,
+.slide-right-leave-active,
+.slide-top-enter-active,
+.slide-top-leave-active {
+  transition: 0.4s ease;
 }
 
 </style>
