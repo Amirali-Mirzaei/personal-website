@@ -2,33 +2,34 @@
    <div>
     <Intro v-if="showIntro" />
   </div>
- 
+
    <div class="tabs">
-    <button
-      :class="['about-btn', { active: activeTab === 'about' }]"
-      @click="activeTab = 'about'"
-    >
-      About
-    </button>
 
     <button
-      :class="{ active: activeTab === 'skills' }"
+      :class="['skills-btn', { active: activeTab === 'skills' }]"
       @click="activeTab = 'skills'"
-    >
+      >
       Skills
     </button>
 
     <button
       :class="{ active: activeTab === 'badges' }"
       @click="activeTab = 'badges'"
-    >
+      >
       Earned
+    </button>
+  
+    <button
+      :class="{ active: activeTab === 'about' }"
+      @click="activeTab = 'about'"
+      >
+      About
     </button>
 
     <button
       :class="['contact-btn', { active: activeTab === 'contact' }]"
       @click="activeTab = 'contact'"
-    >
+      >
       Contact
     </button>
   </div>
@@ -53,7 +54,7 @@ import Badges from '~/components/Badges.vue'
 import Contact from '~/components/Contact.vue'
 
 const showIntro = ref(true)
-const activeTab = ref('about')
+const activeTab = ref('skills')
 
 watch(showIntro, (val) => {
   if (!val) showIntro.value = false
@@ -61,10 +62,10 @@ watch(showIntro, (val) => {
 
 const activeTabComponent = computed(() => {
   return {
-    about: About,
      skills: Skills,
-      badges: Badges,
-       contact: Contact
+      badges: Badges, 
+       about: About,
+        contact: Contact
   }[activeTab.value]
 })
 </script>
@@ -94,13 +95,13 @@ font-size: 150%;
 margin-top: 83px;
 color: $primary;
 border: 2px solid $primary;
-transition: all .3s;  
+transition: all .5s;  
 font-family: $font-base;
 border-radius: 0;
 padding: 10px;
  &:hover {
-  border-color: $primary-hover;
-  background-color: $primary;
+  border-color: $positive;
+  background-color: $primary-dark;
   color: $bg-dark;
   transform: translateY(-2px);
   cursor: pointer;
@@ -113,7 +114,7 @@ button.active {
   border-color: $primary-hover;
 }
 
-.about-btn {
+.skills-btn {
 border-top-left-radius: 8%;
 border-bottom-left-radius: 8%;
 }
@@ -142,7 +143,7 @@ border-bottom-right-radius: 8%;
   button {
     width: 70%;
     margin-top: 10px;
-    border-radius: 10px;
+    border-radius: 10px !important;
   }
 }
 </style>

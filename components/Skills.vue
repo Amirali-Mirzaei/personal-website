@@ -306,10 +306,9 @@ margin: 0;
     align-items: center;
   }
   #js, #vue, #nuxt, #css, #html {
-    transform: none !important;
     margin: 0 !important;
     opacity: 1 !important;
-    
+    border-color: $primary !important;
   }
 }
   @media (max-width: 600px) {

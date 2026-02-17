@@ -214,6 +214,7 @@ margin: 0;
   #chess, #tk, #swim {
     margin: 0 !important;
     opacity: 1 !important;
+    border-color: $primary !important;
  }
 }
 
