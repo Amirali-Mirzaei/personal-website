@@ -115,8 +115,8 @@ margin: 0 0 0 75%;
 width: 200px;
 height: 18vh;
 border-radius: 10px;
-background-color: black;
-color: red;
+background-color: #0f0b0a;
+color: #ff4747;
 padding: 20px;
 z-index: 1;
 }

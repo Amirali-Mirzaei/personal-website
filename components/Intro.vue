@@ -13,7 +13,7 @@
     </div>
   </Transition>
 </template>
-
+  
 <script setup>
 import { ref, onMounted} from 'vue'
 
@@ -101,7 +101,7 @@ animation: blink 1s steps(1) infinite;
 
 .customalert {
 position: absolute;
-top: 20%;
+ top: 20%;
 left: 50%;
 transform: translate(-50%, -50%);
 background-color: $primary;
@@ -136,6 +136,9 @@ font-size: clamp(1rem, 2.5vw, 1.4rem);
 @media (max-width: 600px) {
   .intro h1 {
     font-size: 2rem;
+  }
+  .customalert {
+    visibility: hidden;
   }
 }
 </style>
