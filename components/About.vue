@@ -1,39 +1,38 @@
-<template> 
-
-  <div class="slideshow-container">
-    <div
+<template>
+  <Swiper
+    :modules="[Navigation, Pagination]"
+    :slides-per-view="1"
+    :loop="true"
+    navigation
+    :pagination="{ clickable: true }"
+    class="mySwiper"
+  >
+    <SwiperSlide
       v-for="(slide, index) in slides"
       :key="index"
-      class="mySlides fade"
-      v-show="slideIndex === index + 1"
     >
+      <img :src="slide.img" />
 
-      <img :src="slide.img" style="width:100%" />
-      <div class="text">{{ slide.caption }}</div>
-    </div>
-
-    <a class="prev" @click="plusSlides(-1)">❮</a>
-    <a class="next" @click="plusSlides(1)">❯</a>
-  </div>
-  <br>
-  <div style="text-align:center">
-    <span
-      v-for="(slide, index) in slides"
-      :key="'dot-' + index"
-      class="dot"
-      :class="{ active: slideIndex === index + 1 }"
-      @click="currentSlide(index + 1)"
-    ></span>
-  </div>
+      <div class="text">
+        {{ slide.caption }}
+      </div>
+    </SwiperSlide>
+  </Swiper>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { Swiper, SwiperSlide } from 'swiper/vue'
+import { Navigation, Pagination } from 'swiper/modules'
+
+import 'swiper/css'
+import 'swiper/css/navigation'
+import 'swiper/css/pagination'
+
 import First from '~/assets/images/First.jpg'
 import Second from '~/assets/images/Second.JPG'
 import Third from '~/assets/images/Third.jpg'
 
-const slides = ref([
+const slides = [
   {
     img: First,
     caption: 'My version of SpiderMan'
@@ -46,104 +45,71 @@ const slides = ref([
     img: Third,
     caption: 'Current me'
   }
-])
-
-const slideIndex = ref(1)
-
-function plusSlides(n) {
-  slideIndex.value += n
-
-  if (slideIndex.value > slides.value.length) {
-    slideIndex.value = 1
-  }
-
-  if (slideIndex.value < 1) {
-    slideIndex.value = slides.value.length
-  }
-}
-
-function currentSlide(n) {
-  slideIndex.value = n
-}
+]
 </script>
 
 <style lang="scss" scoped>
-.mySlides {
-  display: inline-flex;
+.mySwiper {
+max-width: 340px;
+margin: auto;
 }
 
-img {
-  vertical-align: middle;
-  border-radius: 5px;
+.swiper-slide {
+position: relative;
 }
 
-.slideshow-container {
-  max-width: 340px;
-  position: relative;
-  margin: auto;
-}
-
-.prev,
-.next {
-  cursor: pointer;
-  position: absolute;
-  top: 50%;
-  padding: 16px;
-  margin-top: -22px;
-  color: white;
-  font-weight: bold;
-  font-size: 18px;
-  transition: 0.6s ease;
-  user-select: none;
-  border-radius: 5px;
-  &:hover {
-    background-color: $primary-hover;
-  }
-}
-.next {
-  right: 0;
-}
-.prev {
- left: 0;
+.mySwiper img {
+width: 100%;
+display: block;
+border-radius: 5px;
 }
 
 .text {
-  color: $text-light;
-  font-size: 17px;
-  padding: 8px 12px;
-  position: absolute;
-  bottom: 8px;
-  width: 100%;
-  text-align: center;
+position: absolute;
+bottom: 22px;
+left: 0;
+width: 100%;
+color: white;
+text-align: center;
+padding: 8px;
 }
 
-.dot {
-  cursor: pointer;
-  height: 15px;
-  width: 15px;
-  margin: 0 2px;
-  background-color: $light;
-  border-radius: 50%;
-  display: inline-block;
-  transition: background-color 0.6s ease;
-}
-
-.active,
-.dot:hover {
-  background-color: $primary-hover;
-}
-
-.fade {
-  animation-name: fade;
-  animation-duration: 1.5s;
-}
-
-@keyframes fade {
-  from {
-    opacity: 0.4;
+:deep(.swiper-button-prev),
+:deep(.swiper-button-next) {
+ color: white;
+ width: 40px;
+ height: 40px;
+ border-radius: 12px;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ transition: all .25s ease;
+  &:hover {
+    background-color: rgba($primary-hover, 0.85);
+    transform: scale(1.08);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, .25);
   }
-  to {
-    opacity: 1;
-  }
+}
+
+:deep(.swiper-button-prev::after),
+:deep(.swiper-button-next::after) {
+  font-size: 10px;
+  font-weight: bold;
+}
+
+:deep(.swiper-pagination-bullet) {
+  width: 10px;
+  height: 10px;
+  background: $light;
+  opacity: 1;
+  transition: .3s;
+}
+
+:deep(.swiper-pagination-bullet:hover) {
+  background: $primary-dark;
+}
+
+:deep(.swiper-pagination-bullet-active) {
+  background: $primary-hover;
 }
 </style>

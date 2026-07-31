@@ -25,7 +25,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
     <main>
       <slot />
     </main>
-   
+    
 </template>
 
 <style lang="scss" scoped>
@@ -43,10 +43,10 @@ animation: headd 3s ease infinite;
   h1 { 
     font-size: 2.5rem;
     color: white;
-    transition: color .3s;
+    transition: all .3s;
     font-weight: 500; 
       &:hover {
-      color: $bg-dark;  
+      color: $bg-dark; 
      }
   }
 }

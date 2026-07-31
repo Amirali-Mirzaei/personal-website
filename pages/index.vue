@@ -112,6 +112,7 @@ button.active {
   background-color: $primary;
   color: $bg-dark;
   border-color: $primary-hover;
+  cursor: auto;
 }
 
 .skills-btn {

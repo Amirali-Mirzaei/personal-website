@@ -5,13 +5,6 @@
     <h1>{{ displayedText }}<span class="caret">|</span></h1>
   </div>
  </Transition>
-
-  <Transition name="fade">
-    <div v-if="showalert" class="customalert">
-      {{ alertMessage }}
-      <button @click="showalert = false">OK</button>
-    </div>
-  </Transition>
 </template>
   
 <script setup>
@@ -20,9 +13,6 @@ import { ref, onMounted} from 'vue'
 const fullText = 'Amirali Mirzaei'
 const displayedText = ref('')
 const show = ref(true)
-
-const showalert = ref(false)
-const alertMessage = ref('')
 
 onMounted(() => {
   let index = 0
@@ -40,10 +30,6 @@ onMounted(() => {
   }, typingSpeed)
 })
 
-const onIntroFinished = () => {
-  alertMessage.value = 'Got a mouse? Hover over Skills and Earned!'
-  showalert.value = true
-}
 </script>
 
 <style scoped lang="scss">
@@ -99,46 +85,9 @@ animation: blink 1s steps(1) infinite;
   opacity: 1;
 }
 
-.customalert {
-position: absolute;
- top: 20%;
-left: 50%;
-transform: translate(-50%, -50%);
-background-color: $primary;
-color: $bg-dark;
-padding: 10px;
-border-radius: 15px;
-font-size: 1.5rem;
-text-align: center;
-z-index: 1;
-width: 100%;
-max-width: 800px;
-font-size: clamp(1rem, 2.5vw, 1.4rem);
-  button {
-    margin-top: 1rem;
-    padding: 0.5rem 1rem;
-    background-color: $hint;
-    color: $bg-dark;
-    border-radius: 6px;
-    border: none;
-    font-size: 15px; 
-    font-weight: 600;
-    font-family: 'Audiowide'; 
-    transition: all .4s;
-    cursor: pointer;
-    &:hover { 
-    background: $bg-dark; 
-    color: white;
-    }
-  }
-}
-
 @media (max-width: 600px) {
   .intro h1 {
     font-size: 2rem;
-  }
-  .customalert {
-    visibility: hidden;
   }
 }
 </style>

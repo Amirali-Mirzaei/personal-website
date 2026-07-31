@@ -74,7 +74,6 @@
        </div>
       </Transition>
   </div> 
-
 </template>
 
 
@@ -292,7 +291,7 @@ margin: 0;
      .sidebarc p,
     .sidebarh p,
    .sidebart p {
-     font-size: clamp(12px, 1.5vw, 15px); 
+     font-size: clamp(12px, 1.5vw, 14px); 
      margin: 0;
      line-height: 1.4;
    }
