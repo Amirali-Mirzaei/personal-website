@@ -1,14 +1,45 @@
-# Personal Website
+# 🚀 Personal Portfolio Website
 
-## Stack
-- Vue 3
-- Nuxt 3
-- Scss
+A modern and responsive personal portfolio built with **Nuxt** and **Vue**, showcasing my projects, skills, and experience.
 
-#  Run Locally
+## ✨ Tech Stack
 
-##  Install dependencies 
-- npm install
+*  Nuxt 3
+*  Vue 3
+*  SCSS
 
-## Start development server
-- npm run dev
+## 📦 Getting Started
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Start the development server:
+
+```bash
+npm run dev
+```
+
+The application will be available at:
+
+```text
+http://localhost:3000
+```
+
+## 🛠️ Build for Production
+
+```bash
+npm run build
+```
+
+Preview the production build:
+
+```bash
+npm run preview
+```
+
+## 📄 License
+
+This project is available for personal and educational purposes.
