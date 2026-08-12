@@ -191,7 +191,7 @@ z-index: 1;
 div#js {
 background: url('~/assets/images/Js.png');
 background-size: 140px;
-background-position: 10px 90px;
+background-position: 5px 90px;
 height: 90px;
 width: 160px;
 border-radius: 15px;
@@ -203,7 +203,7 @@ position: relative;
 display: inline-block;
   &:hover {
   opacity: 1;
-  border-color: $primary-hover;  
+  border-color: transparent;  
  }
 }
 
@@ -220,7 +220,7 @@ transition: all .3s;
 margin: 0 25% 0 0;
   &:hover {
   opacity: 1;
-  border-color: $primary-hover;  
+  border-color: transparent;  
   }
 }
 
@@ -236,7 +236,7 @@ opacity: 0.7;
 transition: all .3s;  
   &:hover {
   opacity: 1;
-  border-color: $primary-hover;  
+  border-color: transparent;  
   }
 }
 
@@ -252,7 +252,7 @@ opacity: 0.7;
 transition: all .3s;  
   &:hover {
   opacity: 1;
-  border-color: $primary-hover;  
+  border-color: transparent;  
   }
 }
 
@@ -268,7 +268,7 @@ opacity: 0.7;
 transition: all .3s;  
   &:hover {
   opacity: 1;
-  border-color: $primary-hover;  
+  border-color: transparent;  
   }
 }
 
@@ -307,7 +307,7 @@ margin: 0;
   #js, #vue, #nuxt, #css, #html {
     margin: 0 !important;
     opacity: 1 !important;
-    border-color: $primary !important;
+    border-color: transparent !important;
   }
 }
   @media (max-width: 600px) {

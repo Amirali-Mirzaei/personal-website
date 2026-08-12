@@ -146,7 +146,7 @@ transition: all .3s;
 margin: 0 0 0 25%;
   &:hover {
   opacity: 1;
-  border-color: $primary-hover;  
+  border-color: transparent;  
  }
 }
 
@@ -163,7 +163,7 @@ transition: all .3s;
 margin: 0 25% 0 0;
   &:hover {
   opacity: 1;
-  border-color: $primary-hover;  
+  border-color: transparent;  
   }
 }
 
@@ -179,7 +179,7 @@ opacity: 0.7;
 transition: all .3s;  
   &:hover { 
   opacity: 1;
-  border-color: $primary-hover;  
+  border-color: transparent;  
   }
 }
 
@@ -214,7 +214,7 @@ margin: 0;
   #chess, #tk, #swim {
     margin: 0 !important;
     opacity: 1 !important;
-    border-color: $primary !important;
+    border-color: transparent !important;
  }
 }
 
