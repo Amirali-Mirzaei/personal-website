@@ -52,6 +52,7 @@ const slides = [
 .mySwiper {
 max-width: 340px;
 margin: auto;
+padding-bottom: 35px;
 }
 
 .swiper-slide {
@@ -66,12 +67,26 @@ border-radius: 5px;
 
 .text {
 position: absolute;
-bottom: 22px;
+bottom: 0;
 left: 0;
 width: 100%;
-color: white;
+box-sizing: border-box;
+padding: 35px 15px 18px;
+color: #fff;
 text-align: center;
-padding: 8px;
+font-size: 16px;
+font-weight: 600;
+letter-spacing: 0.3px;
+background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.75),
+     rgba(0, 0, 0, 0.35),
+      transparent
+  );
+  text-shadow:
+     0 1px 3px rgba(0, 0, 0, 0.9),
+      0 2px 6px rgba(0, 0, 0, 0.6);
+  border-radius: 0 0 5px 5px;
 }
 
 :deep(.swiper-button-prev),
@@ -83,11 +98,11 @@ padding: 8px;
  display: flex;
  align-items: center;
  justify-content: center;
- transition: all .25s ease;
+ transition: all 0.25s ease;
   &:hover {
     background-color: rgba($primary-hover, 0.85);
     transform: scale(1.08);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, .25);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
   }
 }
 
@@ -97,12 +112,16 @@ padding: 8px;
   font-weight: bold;
 }
 
+:deep(.swiper-pagination) {
+  bottom: 0;
+}
+
 :deep(.swiper-pagination-bullet) {
   width: 10px;
   height: 10px;
   background: $light;
   opacity: 1;
-  transition: .3s;
+  transition: 0.3s;
 }
 
 :deep(.swiper-pagination-bullet:hover) {
