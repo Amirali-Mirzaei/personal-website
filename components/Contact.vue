@@ -22,9 +22,10 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 <style lang="scss" scoped>
 .card {
+  text-align: center;
   color: $bg-dark;
   padding: 10px;    
-  background-color: $primary;
+  background: linear-gradient(to left, $primary, $primary-dark);
   height: auto;
   width: 100%;
   border-radius: 5px;
@@ -33,7 +34,6 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
   border: 2px solid $light;
    &:hover {
     border-color: $primary;
-    background-color: $primary-dark;
    }
 }    
 
@@ -45,7 +45,7 @@ color: $bg-dark;
 
 @media (max-width: 600px) {
   .card {
-    font-size: 5px;
+    font-size: 6px;
   }
 }
 </style>
