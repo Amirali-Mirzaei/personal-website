@@ -3,13 +3,13 @@
     <div class="card">
 
         <div id="chess"
-             @mouseenter="openc= true"
-             @mouseleave="closeWithDelay('c')">
+             :class="{ active: activeCard === 'c' }"
+             @click="toggleCard('c')">
         </div>
 
          <Transition name="slide-left">
             <div 
-             v-if="openc || isMobile"
+             v-if="activeCard === 'c' || isMobile"
              class="sidebarc">
              <p>I started playing chess when I was around seven. I couldn't win many medals, 
               but I still try to be a contender in it</p>
@@ -17,13 +17,13 @@
          </Transition>
          
         <div id="tk"
-             @mouseenter="opent = true"
-             @mouseleave="closeWithDelay('t')">
+             :class="{ active: activeCard === 't' }"
+             @click="toggleCard('t')">
         </div>
 
             <Transition name="slide-right">
                  <div 
-                  v-if="opent || isMobile"
+                  v-if="activeCard === 't' || isMobile"
                   class="sidebart">
                   <p>I started Taekwondo when I was just five years old. Now, many years later, 
                   I am proud to hold the rank of 3rd Dan Black Belt</p>
@@ -34,13 +34,13 @@
       <div class="card">
 
         <div id="swim"
-             @mouseenter="opens = true"
-             @mouseleave="closeWithDelay('s')">
+             :class="{ active: activeCard === 's' }"
+             @click="toggleCard('s')">
         </div>  
 
             <Transition name="slide-top">
            <div 
-              v-if="opens || isMobile"
+              v-if="activeCard === 's' || isMobile"
               class="sidebars">
               <p>I started swimming when I was eight. Over the years, 
               I’ve learned  different swimming styles as much as I could</p>
@@ -53,12 +53,8 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
 
-const openc = ref(false)
- const opent = ref(false)
-const opens = ref(false)
-
+const activeCard = ref(null)
 const isMobile = ref(false)
-let timer = null
 
 const checkMobile = () => {
   isMobile.value = window.innerWidth <= 600
@@ -73,15 +69,10 @@ onUnmounted(() => {
   window.removeEventListener('resize', checkMobile)
 })
 
-const closeWithDelay = (type) => {
+const toggleCard = (type) => {
   if (isMobile.value) return
 
-  clearTimeout(timer)
-  timer = setTimeout(() => {
-    if (type === 'c') openc.value = false
-     if (type === 't') opent.value = false
-      if (type === 's') opens.value = false
-  }, 30)
+  activeCard.value = activeCard.value === type ? null : type
 }
 </script>
 
@@ -115,7 +106,7 @@ margin: 0 0 0 75%;
 width: 200px;
 height: 18vh;
 border-radius: 10px;
-background-color: white;
+background-color: #fbffff;
 color: red;
 padding: 20px;
 z-index: 1;
@@ -144,7 +135,9 @@ border: solid 2px $transport;
 opacity: 0.7;
 transition: all .3s;
 margin: 0 0 0 25%;
-  &:hover {
+cursor: pointer;
+  &:hover,
+  &.active {
   opacity: 1;
   border-color: transparent;  
  }
@@ -161,7 +154,9 @@ border: solid 2px $transport;
 opacity: 0.7;
 transition: all .3s;  
 margin: 0 25% 0 0;
-  &:hover {
+cursor: pointer;
+  &:hover,
+  &.active {
   opacity: 1;
   border-color: transparent;  
   }
@@ -177,7 +172,9 @@ border-radius: 15px;
 border: solid 2px $transport;
 opacity: 0.7;
 transition: all .3s;  
-  &:hover { 
+cursor: pointer;
+  &:hover,
+  &.active { 
   opacity: 1;
   border-color: transparent;  
   }

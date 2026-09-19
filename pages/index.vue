@@ -96,7 +96,7 @@ const activeTabComponent = computed(() => {
   background: linear-gradient(to left, $primary, $primary-dark);
   border-radius: 3px;
   transition: transform 0.5s cubic-bezier(0.65, 0, 0.35, 1),
-    width 0.5s cubic-bezier(0.65, 0, 0.35, 1);
+  width 0.5s cubic-bezier(0.65, 0, 0.35, 1);
   z-index: 2;
 }
 
@@ -132,7 +132,6 @@ const activeTabComponent = computed(() => {
   }
 
   &:hover {
-    border-color: $primary-dark;
     color: $bg-dark;
     background-color: $primary-dark;
     transform: translateY(-4px) scale(1.04);

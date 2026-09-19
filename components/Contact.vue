@@ -33,7 +33,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
   font-size: 10px;
   border: 2px solid $light;
    &:hover {
-    border-color: $primary;
+    border-color: transparent;
    }
 }    
 

@@ -1,15 +1,15 @@
 <template>
 
-  <div class="card"> 
+  <div class="card">
 
         <div id="js"
-             @mouseenter="openj= true"
-             @mouseleave="closeWithDelay('j')">
-        </div> 
+             :class="{ active: activeCard === 'j' }"
+             @click="toggleCard('j')">
+        </div>
 
         <Transition name="slide-left">
           <div
-             v-if="openj || isMobile"
+             v-if="activeCard === 'j' || isMobile"
              class="sidebarj">
             <p>I love turning complex problems into simple, 
             elegant JavaScript solutions</p>
@@ -17,13 +17,13 @@
         </Transition>
 
         <div id="vue"
-             @mouseenter="openv= true"
-             @mouseleave="closeWithDelay('v')">
+             :class="{ active: activeCard === 'v' }"
+             @click="toggleCard('v')">
         </div>
 
         <Transition name="slide-right">
            <div 
-              v-if="openv || isMobile"
+              v-if="activeCard === 'v' || isMobile"
               class="sidebarv">
              <p>Crafting reactive, component-driven interfaces with Vue.
               js that feel alive and intuitive</p>
@@ -34,26 +34,26 @@
     <div class="card">
 
      <div id="css"
-          @mouseenter="openc= true"
-          @mouseleave="closeWithDelay('c')"> 
+          :class="{ active: activeCard === 'c' }"
+          @click="toggleCard('c')">
      </div>
 
      <Transition name="slide-left">
        <div
-           v-if="openc || isMobile"
+           v-if="activeCard === 'c' || isMobile"
            class="sidebarc">
          <p>Turning code into visually stunning and intuitive user experiences with CSS</p>
        </div>
      </Transition>
 
      <div id="nuxt"
-          @mouseenter="opent= true" 
-          @mouseleave="closeWithDelay('t')">
+          :class="{ active: activeCard === 't' }"
+          @click="toggleCard('t')">
       </div>
 
       <Transition name="slide-top">
         <div  
-           v-if="opent || isMobile"
+           v-if="activeCard === 't' || isMobile"
            class="sidebart">
          <p>Building high performance Vue apps with Nuxt.
           js for seamless user experiences</p>
@@ -61,13 +61,13 @@
       </Transition>
 
      <div id="html"
-          @mouseenter="openh= true"
-          @mouseleave="closeWithDelay('h')">
+          :class="{ active: activeCard === 'h' }"
+          @click="toggleCard('h')">
       </div>
 
       <Transition name="slide-right">
        <div 
-           v-if="openh || isMobile"
+           v-if="activeCard === 'h' || isMobile"
            class="sidebarh">
          <p>Structuring the web with semantic, clean, 
          and accessible HTML for solid foundations</p>
@@ -80,14 +80,8 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
 
-   const openj = ref(false)
-    const openv = ref(false)
-   const openc = ref(false)
- const openh = ref(false)
-   const opent = ref(false) 
-
-   const isMobile = ref(false)
-let timer = null
+const activeCard = ref(null)
+const isMobile = ref(false)
 
 const checkMobile = () => {
   isMobile.value = window.innerWidth <= 600
@@ -102,17 +96,10 @@ onUnmounted(() => {
   window.removeEventListener('resize', checkMobile)
 })
 
-const closeWithDelay = (type) => {
+const toggleCard = (type) => {
   if (isMobile.value) return
 
-  clearTimeout(timer)
-  timer = setTimeout(() => {
-    if (type === 'j') openj.value = false
-     if (type === 'v') openv.value = false
-      if (type === 'c') openc.value = false
-       if (type === 'h') openh.value = false
-        if (type === 't') opent.value = false
-  }, 30)
+  activeCard.value = activeCard.value === type ? null : type
 }
 </script>
 
@@ -135,7 +122,7 @@ width: 200px;
 height: 15vh;
 border-radius: 10px;
 color: black;
-background-color: #ffc200;
+background: linear-gradient(to left, #ffd84d, #ffb300);
 padding: 20px;
 z-index: 1;
 }
@@ -201,7 +188,9 @@ transition: all .3s;
 margin: 0 0 0 25%;
 position: relative;
 display: inline-block;
-  &:hover {
+cursor: pointer;
+  &:hover,
+  &.active {
   opacity: 1;
   border-color: transparent;  
  }
@@ -218,7 +207,9 @@ border: solid 2px $transport;
 opacity: 0.7;
 transition: all .3s;  
 margin: 0 25% 0 0;
-  &:hover {
+cursor: pointer;
+  &:hover,
+  &.active {
   opacity: 1;
   border-color: transparent;  
   }
@@ -234,7 +225,9 @@ border-radius: 15px;
 border: solid 2px $transport;
 opacity: 0.7;
 transition: all .3s;  
-  &:hover {
+cursor: pointer;
+  &:hover,
+  &.active {
   opacity: 1;
   border-color: transparent;  
   }
@@ -250,7 +243,9 @@ border-radius: 15px;
 border: solid 2px $transport;
 opacity: 0.7;
 transition: all .3s;  
-  &:hover {
+cursor: pointer;
+  &:hover,
+  &.active {
   opacity: 1;
   border-color: transparent;  
   }
@@ -266,7 +261,9 @@ border-radius: 15px;
 border: solid 2px $transport;
 opacity: 0.7;
 transition: all .3s;  
-  &:hover {
+cursor: pointer;
+  &:hover,
+  &.active {
   opacity: 1;
   border-color: transparent;  
   }
