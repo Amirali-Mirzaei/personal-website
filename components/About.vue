@@ -92,17 +92,15 @@ background: linear-gradient(
 :deep(.swiper-button-prev),
 :deep(.swiper-button-next) {
  color: white;
- width: 40px;
- height: 40px;
+ width: 35px;
+ height: 35px;
  border-radius: 12px;
  display: flex;
  align-items: center;
  justify-content: center;
  transition: all 0.25s ease;
   &:hover {
-    background-color: rgba($primary-hover, 0.85);
     transform: scale(1.08);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
   }
 }
 

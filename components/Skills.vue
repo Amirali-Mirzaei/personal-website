@@ -1,353 +1,207 @@
 <template>
+  <div class="chain-wrapper">
+    <button class="nav-btn prev" @click="goPrev" aria-label="previous">‹</button>
 
-  <div class="card">
+    <Swiper
+      class="chain-swiper"
+      :loop="true"
+      :centered-slides="true"
+      :slides-per-view="3"
+      :space-between="20"
+      :breakpoints="breakpoints"
+      @swiper="onSwiperReady"
+    >
+      <SwiperSlide
+        v-for="item in items"
+        :key="item.key"
+        v-slot="{ isActive }"
+      >
+        <div
+          class="chain-item"
+          :class="{ 'is-active': isActive }"
+          :style="{ '--accent-rgb': item.rgb }"
+        >
+          <div class="icon" :class="item.key"></div>
 
-        <div id="js"
-             :class="{ active: activeCard === 'j' }"
-             @click="toggleCard('j')">
+          <Transition name="panel-fade">
+            <div v-if="isActive" class="sidebar-panel">
+              <p>{{ item.text }}</p>
+            </div>
+          </Transition>
         </div>
+      </SwiperSlide>
+    </Swiper>
 
-        <Transition name="slide-left">
-          <div
-             v-if="activeCard === 'j' || isMobile"
-             class="sidebarj">
-            <p>I love turning complex problems into simple, 
-            elegant JavaScript solutions</p>
-          </div>
-        </Transition>
-
-        <div id="vue"
-             :class="{ active: activeCard === 'v' }"
-             @click="toggleCard('v')">
-        </div>
-
-        <Transition name="slide-right">
-           <div 
-              v-if="activeCard === 'v' || isMobile"
-              class="sidebarv">
-             <p>Crafting reactive, component-driven interfaces with Vue.
-              js that feel alive and intuitive</p>
-         </div> 
-        </Transition>
-        </div><br>
-
-    <div class="card">
-
-     <div id="css"
-          :class="{ active: activeCard === 'c' }"
-          @click="toggleCard('c')">
-     </div>
-
-     <Transition name="slide-left">
-       <div
-           v-if="activeCard === 'c' || isMobile"
-           class="sidebarc">
-         <p>Turning code into visually stunning and intuitive user experiences with CSS</p>
-       </div>
-     </Transition>
-
-     <div id="nuxt"
-          :class="{ active: activeCard === 't' }"
-          @click="toggleCard('t')">
-      </div>
-
-      <Transition name="slide-top">
-        <div  
-           v-if="activeCard === 't' || isMobile"
-           class="sidebart">
-         <p>Building high performance Vue apps with Nuxt.
-          js for seamless user experiences</p>
-         </div>
-      </Transition>
-
-     <div id="html"
-          :class="{ active: activeCard === 'h' }"
-          @click="toggleCard('h')">
-      </div>
-
-      <Transition name="slide-right">
-       <div 
-           v-if="activeCard === 'h' || isMobile"
-           class="sidebarh">
-         <p>Structuring the web with semantic, clean, 
-         and accessible HTML for solid foundations</p>
-       </div>
-      </Transition>
-  </div> 
+    <button class="nav-btn next" @click="goNext" aria-label="next">›</button>
+  </div>
 </template>
 
-
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref } from 'vue'
+import { Swiper, SwiperSlide } from 'swiper/vue'
+import 'swiper/css'
 
-const activeCard = ref(null)
-const isMobile = ref(false)
+const items = [
+  { key: 'flutter', rgb: '31,188,253',  text: 'Building responsive and cross-platform apps with Flutter for seamless experiences' },
+  { key: 'dart',    rgb: '8,88,156',    text: 'Building robust, scalable, and expressive applications with Dart for powerful foundations' },
+  { key: 'js',      rgb: '255,204,51',  text: 'I love turning complex problems into simple, elegant JavaScript solutions' },
+  { key: 'vue',     rgb: '66,211,146',  text: 'Crafting reactive, component-driven interfaces with Vue.js that feel alive and intuitive' },
+  { key: 'css',     rgb: '79,172,254',  text: 'Turning code into visually stunning and intuitive user experiences with CSS' },
+  { key: 'html',    rgb: '255,61,61',   text: 'Structuring the web with semantic, clean, and accessible HTML for solid foundations' },
+  { key: 'nuxt',    rgb: '255,255,255', text: 'Building high performance Vue apps with Nuxt.js for seamless user experiences' },
+]
 
-const checkMobile = () => {
-  isMobile.value = window.innerWidth <= 600
+const swiperInstance = ref(null)
+const onSwiperReady = (swiper) => {
+  swiperInstance.value = swiper
 }
 
-onMounted(() => {
-  checkMobile()
-  window.addEventListener('resize', checkMobile)
-})
+const goPrev = () => swiperInstance.value?.slidePrev()
+const goNext = () => swiperInstance.value?.slideNext()
 
-onUnmounted(() => {
-  window.removeEventListener('resize', checkMobile)
-})
-
-const toggleCard = (type) => {
-  if (isMobile.value) return
-
-  activeCard.value = activeCard.value === type ? null : type
+const breakpoints = {
+  0:   { slidesPerView: 1.6, spaceBetween: 14 },
+  480: { slidesPerView: 2.2, spaceBetween: 18 },
+  768: { slidesPerView: 3,   spaceBetween: 26 },
 }
 </script>
 
 <style lang="scss" scoped>
-
-.card {
-display: grid;
-grid-template-columns: repeat(auto-fit, minmax(14px, 1fr));
-gap: 2px;
-justify-items: center;
-align-items: center;
-text-align: center;
-padding: 5px;
+.chain-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 10px 0;
+  background: transparent;
 }
 
-.sidebarj {
-position: fixed;
-margin: 0 75% 0 0;
-width: 200px;
-height: 15vh;
-border-radius: 10px;
-color: black;
-background: linear-gradient(to left, #ffd84d, #ffb300);
-padding: 20px;
-z-index: 1;
+.chain-swiper {
+  flex: 1;
+  padding: 30px 0;
+  overflow: hidden;
 }
 
-.sidebarv {
-position: fixed;
-margin: 0 0 0 75%;
-width: 200px;
-height: 15vh;
-border-radius: 10px;
-background-color: $primary-dark;
-color: $bg-dark;
-padding: 20px;
-z-index: 1;
+:deep(.swiper-slide) {
+  display: flex;
+  justify-content: center;
 }
 
-.sidebarc {
-position: fixed;
-margin: 0 75% 30% 0;
-width: 200px;
-height: 15vh;
-border-radius: 10px;
-color: white;
-background-color: #2371d8;
-padding: 20px;
-z-index: 1;
-}
+.nav-btn {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid transparent;
+  background: $primary;
+  color: $text-light;
+  font-size: 26px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 5;
+  transition: all .35s;
 
-.sidebarh {
-position: fixed;
-margin: 0 0 30% 75%;
-width: 200px;
-height: 15vh;
-border-radius: 10px;
-background-color: rgb(212, 13, 13);
-color: white;
-padding: 20px;
-z-index: 1;
-}
-
-.sidebart {
-position: fixed;
-margin: 0 0 30% 0;
-width: 200px;
-height: 15vh;
-border-radius: 10px;
-color: $primary-dark;
-background-color: white;
-padding: 20px;
-z-index: 1;
-}
-
-div#js {
-background: url('~/assets/images/Js.png');
-background-size: 140px;
-background-position: 5px 90px;
-height: 90px;
-width: 160px;
-border-radius: 15px;
-border: solid 2px $transport;
-opacity: 0.7;
-transition: all .3s;
-margin: 0 0 0 25%;
-position: relative;
-display: inline-block;
-cursor: pointer;
-  &:hover,
-  &.active {
-  opacity: 1;
-  border-color: transparent;  
- }
-}
-
-div#vue {
-background: url('~/assets/images/Vue.png');
-background-size: 180px;
-background-position: -10px 97px;
-height: 90px;
-width: 160px;
-border-radius: 15px;
-border: solid 2px $transport;
-opacity: 0.7;
-transition: all .3s;  
-margin: 0 25% 0 0;
-cursor: pointer;
-  &:hover,
-  &.active {
-  opacity: 1;
-  border-color: transparent;  
+  &:hover {
+    background: $primary-dark;
+    transform: scale(1.08);
   }
 }
 
-div#css {
-background: url('~/assets/images/css.webp');
-background-size: 180px;
-background-position: -10px 90px;
-height: 90px;
-width: 160px;
-border-radius: 15px;
-border: solid 2px $transport;
-opacity: 0.7;
-transition: all .3s;  
-cursor: pointer;
-  &:hover,
-  &.active {
-  opacity: 1;
-  border-color: transparent;  
+.chain-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  transform: scale(0.72);
+  opacity: 0.35;
+  filter: blur(1px);
+  transition:
+    transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.45s ease,
+    filter 0.45s ease;
+
+  &.is-active {
+    transform: scale(1);
+    opacity: 1;
+    filter: none;
   }
 }
 
-div#nuxt {
-background: url('~/assets/images/nuxt.jpg');
-background-size: 180px;
-background-position: -10px 90px;
-height: 90px;
-width: 160px;
-border-radius: 15px;
-border: solid 2px $transport;
-opacity: 0.7;
-transition: all .3s;  
-cursor: pointer;
-  &:hover,
-  &.active {
-  opacity: 1;
-  border-color: transparent;  
+.icon {
+  height: 90px;
+  width: 160px;
+  border-radius: 15px;
+  background-size: 150px;
+  background-position: center;
+  background-repeat: no-repeat;
+  flex-shrink: 0;
+
+  &.js      { background-image: url('~/assets/images/Js.png'); }
+  &.vue     { background-image: url('~/assets/images/Vue.png'); }
+  &.css     { background-image: url('~/assets/images/css.webp'); }
+  &.html    { background-image: url('~/assets/images/html.webp'); }
+  &.nuxt    { background-image: url('~/assets/images/nuxt.jpg'); }
+  &.dart    { background-image: url('~/assets/images/dart.png'); }
+  &.flutter { background-image: url('~/assets/images/flutter.png'); }
+}
+
+.sidebar-panel {
+  width: clamp(200px, 55vw, 280px);
+  padding: 20px 18px;
+  border-radius: 16px;
+  text-align: center;
+  color: #f2f2f5;
+  background:
+    radial-gradient(circle at 25% 15%, rgba(var(--accent-rgb), 0.14), transparent 55%),
+    linear-gradient(160deg, rgba(14, 14, 18, 0.86), rgba(4, 4, 6, 0.94));
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid rgba(var(--accent-rgb), 0.4);
+  box-shadow:
+    0 10px 28px rgba(0, 0, 0, 0.55),
+    0 0 45px -10px rgba(var(--accent-rgb), 0.35);
+
+  p {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.35px;
+    line-height: 1.5;
+    text-shadow: 0 0 14px rgba(var(--accent-rgb), 0.4), 0 1px 2px rgba(0, 0, 0, 0.6);
   }
 }
 
-div#html {
-background: url('~/assets/images/html.webp');
-background-size: 180px;
-background-position: -10px 90px;
-height: 90px;
-width: 160px;
-border-radius: 15px;
-border: solid 2px $transport;
-opacity: 0.7;
-transition: all .3s;  
-cursor: pointer;
-  &:hover,
-  &.active {
-  opacity: 1;
-  border-color: transparent;  
-  }
+.panel-fade-enter-active {
+  transition: all 0.4s ease 0.1s;
 }
-
-p {
-font-size: 14px;
-font-weight: 600;
-margin: 0;
+.panel-fade-enter-from {
+  opacity: 0;
+  transform: translateY(10px);
 }
-
-.sidebarj,
- .sidebarv,
-  .sidebarc,
-   .sidebarh,
-    .sidebart {
-      width: clamp(150px, 20vw, 200px); 
-      height: auto; 
-    }
-       .sidebarj p,
-      .sidebarv p,
-     .sidebarc p,
-    .sidebarh p,
-   .sidebart p {
-     font-size: clamp(12px, 1.5vw, 14px); 
-     margin: 0;
-     line-height: 1.4;
-   }
- 
 
 @media (max-width: 600px) {
-  .card {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    align-items: center;
+  .chain-wrapper {
+    gap: 6px;
   }
-  #js, #vue, #nuxt, #css, #html {
-    margin: 0 !important;
-    opacity: 1 !important;
-    border-color: transparent !important;
+  .nav-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 20px;
   }
-}
-  @media (max-width: 600px) {
-  .sidebarj,
-  .sidebarv,
-  .sidebarc,
-  .sidebarh,
-  .sidebart {
-    display: block;      
-    width: 80%;           
-    max-width: 300px;     
-    position: relative;   
-    transform: none;   
-    opacity: 1;           
-    margin: 8px auto 0;  
-    font-size: 14px;
+  .icon {
+    height: 70px;
+    width: 120px;
+    background-size: 110px;
   }
-}
-
-.slide-left-enter-from,
-.slide-left-leave-to {
-  transform: translateX(-130%);
-  opacity: 0;
-}
-
-.slide-right-enter-from,
-.slide-right-leave-to {
-  transform: translateX(130%);
-  opacity: 0;
-}
-
-.slide-top-enter-from,
-.slide-top-leave-to {
-  transform: translateY(-250%);
-  opacity: 0;
-}
-
-.slide-left-enter-active,
-.slide-left-leave-active,
-.slide-right-enter-active,
-.slide-right-leave-active,
-.slide-top-enter-active,
-.slide-top-leave-active {
-  transition: 0.4s ease;
+  .sidebar-panel {
+    width: 52vw;
+    padding: 16px 14px;
+    p { font-size: 11px; }
+  }
 }
 </style>

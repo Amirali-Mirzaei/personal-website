@@ -1,260 +1,284 @@
+
 <template>
+  <div class="chain-wrapper">
+    <button
+      class="nav-btn prev"
+      type="button"
+      aria-label="Previous"
+      @click="goPrev"
+    >
+      ‹
+    </button>
 
-    <div class="card">
+    <Swiper
+      class="chain-swiper"
+      :loop="true"
+      :centered-slides="true"
+      :slides-per-view="3"
+      :space-between="20"
+      :breakpoints="breakpoints"
+      :watch-slides-progress="true"
+      @swiper="onSwiperReady"
+    >
+      <SwiperSlide
+        v-for="item in slideItems"
+        :key="item.slideId"
+        v-slot="{ isActive }"
+      >
+        <div
+          class="chain-item"
+          :class="{ 'is-active': isActive }"
+          :style="{ '--accent-rgb': item.rgb }"
+        >
+          <div class="icon" :class="item.key"></div>
 
-        <div id="chess"
-             :class="{ active: activeCard === 'c' }"
-             @click="toggleCard('c')">
+          <Transition name="panel-fade">
+            <div
+              v-if="isActive"
+              class="sidebar-panel"
+            >
+              <p>{{ item.text }}</p>
+            </div>
+          </Transition>
         </div>
+      </SwiperSlide>
+    </Swiper>
 
-         <Transition name="slide-left">
-            <div 
-             v-if="activeCard === 'c' || isMobile"
-             class="sidebarc">
-             <p>I started playing chess when I was around seven. I couldn't win many medals, 
-              but I still try to be a contender in it</p>
-           </div>
-         </Transition>
-         
-        <div id="tk"
-             :class="{ active: activeCard === 't' }"
-             @click="toggleCard('t')">
-        </div>
-
-            <Transition name="slide-right">
-                 <div 
-                  v-if="activeCard === 't' || isMobile"
-                  class="sidebart">
-                  <p>I started Taekwondo when I was just five years old. Now, many years later, 
-                  I am proud to hold the rank of 3rd Dan Black Belt</p>
-           </div>  
-          </Transition>  
-        </div><br>
-
-      <div class="card">
-
-        <div id="swim"
-             :class="{ active: activeCard === 's' }"
-             @click="toggleCard('s')">
-        </div>  
-
-            <Transition name="slide-top">
-           <div 
-              v-if="activeCard === 's' || isMobile"
-              class="sidebars">
-              <p>I started swimming when I was eight. Over the years, 
-              I’ve learned  different swimming styles as much as I could</p>
-           </div> 
-            </Transition> 
-        </div>
+    <button
+      class="nav-btn next"
+      type="button"
+      aria-label="Next"
+      @click="goNext"
+    >
+      ›
+    </button>
+  </div>
 </template>
 
-
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref } from 'vue'
+import { Swiper, SwiperSlide } from 'swiper/vue'
+import 'swiper/css'
 
-const activeCard = ref(null)
-const isMobile = ref(false)
+const items = [
+  {
+    key: 'chess',
+    rgb: '226, 190, 90',
+    text: "I started playing chess when I was around seven. I couldn't win many medals, but I still try to be a contender in it."
+  },
+  {
+    key: 'tk',
+    rgb: '128, 128, 128',
+    text: 'I started Taekwondo when I was just five years old. Now, many years later, I am proud to hold the rank of 4th Dan Black Belt.'
+  },
+  {
+    key: 'swim',
+    rgb: '13, 149, 167',
+    text: "I started swimming when I was eight. Over the years, I've learned different swimming styles as much as I could."
+  }
+]
 
-const checkMobile = () => {
-  isMobile.value = window.innerWidth <= 600
+const slideItems = [...items, ...items].map((item, index) => ({
+  ...item,
+  slideId: `${item.key}-${index}`
+}))
+
+const swiperInstance = ref(null)
+
+const onSwiperReady = (swiper) => {
+  swiperInstance.value = swiper
 }
 
-onMounted(() => {
-  checkMobile()
-  window.addEventListener('resize', checkMobile)
-})
+const goPrev = () => {
+  swiperInstance.value?.slidePrev()
+}
 
-onUnmounted(() => {
-  window.removeEventListener('resize', checkMobile)
-})
+const goNext = () => {
+  swiperInstance.value?.slideNext()
+}
 
-const toggleCard = (type) => {
-  if (isMobile.value) return
-
-  activeCard.value = activeCard.value === type ? null : type
+const breakpoints = {
+  0: {
+    slidesPerView: 1.6,
+    spaceBetween: 14
+  },
+  480: {
+    slidesPerView: 2.2,
+    spaceBetween: 18
+  },
+  768: {
+    slidesPerView: 3,
+    spaceBetween: 26
+  }
 }
 </script>
 
 <style lang="scss" scoped>
-
-.card {
-display: grid;
-grid-template-columns: repeat(auto-fit, minmax(14px, 1fr));
-gap: 2px;
-justify-items: center;
-align-items: center;
-text-align: center;
-padding: 5px;
-}    
-
-.sidebarc {
-position: fixed;
-margin: 0 75% 0 0;
-width: 200px;
-height: 18vh;
-border-radius: 10px;
-color: black;
-background-color: white;
-padding: 20px;
-z-index: 1;
+.chain-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 10px 0;
+  background: transparent;
 }
 
-.sidebart {
-position: fixed;
-margin: 0 0 0 75%;
-width: 200px;
-height: 18vh;
-border-radius: 10px;
-background-color: #fbffff;
-color: red;
-padding: 20px;
-z-index: 1;
+.chain-swiper {
+  flex: 1;
+  min-width: 0;
+  padding: 30px 0;
+  overflow: hidden;
 }
 
-.sidebars {
-position: fixed;
-margin: 0 0 30% 0;
-width: 200px;
-height: 16vh;
-border-radius: 10px;
-color: rgba(13, 149, 167, 0.89);
-background-color: whitesmoke;
-padding: 20px;
-z-index: 1;
+:deep(.swiper-slide) {
+  display: flex;
+  justify-content: center;
+  height: auto;
 }
 
-div#chess {
-background: url('~/assets/images/chess.jpg');
-background-size: 180px;
-background-position: 0px 90px;
-height: 90px;
-width: 160px;
-border-radius: 15px;
-border: solid 2px $transport;
-opacity: 0.7;
-transition: all .3s;
-margin: 0 0 0 25%;
-cursor: pointer;
-  &:hover,
-  &.active {
-  opacity: 1;
-  border-color: transparent;  
- }
-}
-
-div#tk {
-background: url('~/assets/images/Taekwondo.jpg');
-background-size: 180px;
-background-position: -10px 97px;
-height: 90px;
-width: 160px;
-border-radius: 15px;
-border: solid 2px $transport;
-opacity: 0.7;
-transition: all .3s;  
-margin: 0 25% 0 0;
-cursor: pointer;
-  &:hover,
-  &.active {
-  opacity: 1;
-  border-color: transparent;  
+.nav-btn {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid transparent;
+  background: $primary;
+  color: $text-light;
+  font-size: 26px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 5;
+  transition: all 0.35s;
+  &:hover {
+    background: $primary-dark;
+    transform: scale(1.08);
   }
 }
 
-div#swim {
-background: url('~/assets/images/Swimming.jpg');
-background-size: 180px;
-background-position: -10px 90px;
-height: 90px;
-width: 160px;
-border-radius: 15px;
-border: solid 2px $transport;
-opacity: 0.7;
-transition: all .3s;  
-cursor: pointer;
-  &:hover,
-  &.active { 
-  opacity: 1;
-  border-color: transparent;  
+.chain-item {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  transform: scale(0.72);
+  opacity: 0.35;
+  filter: blur(1px);
+  transition:
+    transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.45s ease,
+    filter 0.45s ease;
+  &.is-active {
+    transform: scale(1);
+    opacity: 1;
+    filter: none;
   }
 }
 
-p {
-font-size: 13px;
-font-weight: 600;
-margin: 0;
+.icon {
+  height: 90px;
+  width: 160px;
+  border-radius: 15px;
+  background-size: 180px;
+  background-position: center;
+  background-repeat: no-repeat;
+  flex-shrink: 0;
+  transition:
+    box-shadow 0.4s ease,
+    border-color 0.4s ease;
+
+  &.chess {
+    background-image: url('~/assets/images/chess.jpg');
+  }
+
+  &.tk {
+    background-image: url('~/assets/images/Taekwondo.jpg');
+  }
+
+  &.swim {
+    background-image: url('~/assets/images/Swimming.jpg');
+  }
 }
 
- .sidebarc,
-  .sidebart,
-   .sidebars {
-    width: clamp(150px, 20vw, 205px); 
-    height: auto; 
-    padding: 1em;
-    border-radius: 10px;
-  }
-    .sidebarc p,
-   .sidebart p,
-  .sidebars p {
-    font-size: clamp(12px, 1.5vw, 15px); 
+.sidebar-panel {
+  width: clamp(180px, 55vw, 280px);
+  padding: 20px 18px;
+  border-radius: 16px;
+  text-align: center;
+  color: #f2f2f5;
+  background:
+    radial-gradient(
+      circle at 25% 15%,
+      rgba(var(--accent-rgb), 0.14),
+      transparent 55%
+    ),
+    linear-gradient(
+      160deg,
+      rgba(14, 14, 18, 0.86),
+      rgba(4, 4, 6, 0.94)
+    );
+
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid rgba(var(--accent-rgb), 0.4);
+  box-shadow:
+    0 10px 28px rgba(0, 0, 0, 0.55),
+    0 0 45px -10px rgba(var(--accent-rgb), 0.35);
+
+  p {
     margin: 0;
-    line-height: 1.4;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.35px;
+    line-height: 1.5;
+    text-shadow:
+      0 0 14px rgba(var(--accent-rgb), 0.4),
+      0 1px 2px rgba(0, 0, 0, 0.6);
+  }
+}
+
+.panel-fade-enter-active,
+.panel-fade-leave-active {
+  transition:
+  opacity 0.4s ease,
+  transform 0.4s ease;
+}
+
+.panel-fade-enter-from,
+.panel-fade-leave-to {
+  opacity: 0;
+  transform: translateY(10px);
 }
 
 @media (max-width: 600px) {
-  .card {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+  .chain-wrapper {
+    gap: 6px;
   }
-  #chess, #tk, #swim {
-    margin: 0 !important;
-    opacity: 1 !important;
-    border-color: transparent !important;
- }
-}
 
- @media (max-width: 600px) {
-  .sidebarc,
-  .sidebart,
-  .sidebars {
-    display: block;      
-    width: 80%;           
-    max-width: 300px;     
-    position: relative;   
-    transform: none;     
-    opacity: 1;           
-    margin: 8px auto 0;  
-    font-size: 14px;
+  .nav-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 20px;
+  }
+
+  .icon {
+    height: 70px;
+    width: 120px;
+    background-size: 150px;
+  }
+
+  .sidebar-panel {
+    width: 52vw;
+    padding: 16px 14px;
+
+    p {
+      font-size: 11px;
+    }
   }
 }
-
-.slide-left-enter-from,
-.slide-left-leave-to {
-  transform: translateX(-130%);
-  opacity: 0;
-}
-
-.slide-right-enter-from,
-.slide-right-leave-to {
-  transform: translateX(130%);
-  opacity: 0;
-}
-
-.slide-top-enter-from,
-.slide-top-leave-to {
-  transform: translateY(-250%);
-  opacity: 0;
-}
-
-.slide-left-enter-active,
-.slide-left-leave-active,
-.slide-right-enter-active,
-.slide-right-leave-active,
-.slide-top-enter-active,
-.slide-top-leave-active {
-  transition: 0.4s ease;
-}
-
 </style>

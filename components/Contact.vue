@@ -33,7 +33,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
   font-size: 10px;
   border: 2px solid $light;
    &:hover {
-    border-color: transparent;
+    border-color: $text-light;
    }
 }    
 
@@ -41,8 +41,11 @@ a {
 text-decoration: none;  
 display: inline-flex;
 color: $bg-dark;
+transition: color .35s;
+ &:hover {
+  color: $text-light;
+  }
 }
-
 @media (max-width: 600px) {
   .card {
     font-size: 6px;
