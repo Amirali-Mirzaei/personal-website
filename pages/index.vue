@@ -93,7 +93,7 @@ const activeTabComponent = computed(() => {
   bottom: -3px;
   left: 0;
   height: 3px;
-  background: linear-gradient(to left, $primary, $primary-dark);
+  background: $primary-hover;
   border-radius: 3px;
   transition: transform 0.5s cubic-bezier(0.65, 0, 0.35, 1),
   width 0.5s cubic-bezier(0.65, 0, 0.35, 1);
@@ -115,8 +115,8 @@ const activeTabComponent = computed(() => {
   background-color: $secondary;
   font-size: 150%;
   margin-top: 83px;
-  color: $primary;
-  border: 2px solid $primary;
+  color: $bg-dark;
+  border: 2px solid $text-light;
   font-family: $font-base;
   border-radius: 0;
   padding: 10px 24px;
@@ -133,7 +133,7 @@ const activeTabComponent = computed(() => {
 
   &:hover {
     color: $bg-dark;
-    background-color: $primary-dark;
+    background-color: $primary-hover;
     transform: translateY(-4px) scale(1.04);
     cursor: pointer;
 
@@ -149,7 +149,7 @@ const activeTabComponent = computed(() => {
 
 button.active,
 .tab-btn.active {
-  background: linear-gradient(to left, $primary, $primary-dark);
+  background: $primary-hover;
   color: $bg-dark;
   border-color: $primary-hover;
   cursor: auto;

@@ -117,13 +117,13 @@ background: linear-gradient(
 :deep(.swiper-pagination-bullet) {
   width: 10px;
   height: 10px;
-  background: $light;
+  background: $text-light;
   opacity: 1;
   transition: 0.3s;
 }
 
 :deep(.swiper-pagination-bullet:hover) {
-  background: $primary-dark;
+  background: $primary-hover;
 }
 
 :deep(.swiper-pagination-bullet-active) {
