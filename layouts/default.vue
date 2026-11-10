@@ -36,10 +36,9 @@ align-items: center;
 justify-content: center;
 text-align: center;
 padding: 1rem 2rem;
-background: linear-gradient(90deg, $primary, $primary-hover, $primary);
+background: $primary;
 background-size: 300% 100%;
 gap: 5px;
-animation: headd 3s ease infinite;
   h1 { 
     font-size: 2.5rem;
     color: white;
@@ -48,18 +47,6 @@ animation: headd 3s ease infinite;
       &:hover {
       color: $bg-dark; 
      }
-  }
-}
-
-@keyframes headd {
-0% {
-  background-position: 0% 50%;
-}
-50% {
-  background-position: 100% 50%;
-}
-100% {
-  background-position: 0% 50%;
   }
 }
 
