@@ -1,42 +1,17 @@
-
 <template>
   <div class="chain-wrapper">
-    <button
-      class="nav-btn prev"
-      type="button"
-      aria-label="Previous"
-      @click="goPrev"
-    >
+    <button class="nav-btn prev" type="button" aria-label="Previous" @click="goPrev">
       ‹
     </button>
 
-    <Swiper
-      class="chain-swiper"
-      :loop="true"
-      :centered-slides="true"
-      :slides-per-view="3"
-      :space-between="20"
-      :breakpoints="breakpoints"
-      :watch-slides-progress="true"
-      @swiper="onSwiperReady"
-    >
-      <SwiperSlide
-        v-for="item in slideItems"
-        :key="item.slideId"
-        v-slot="{ isActive }"
-      >
-        <div
-          class="chain-item"
-          :class="{ 'is-active': isActive }"
-          :style="{ '--accent-rgb': item.rgb }"
-        >
+    <Swiper class="chain-swiper" :modules="modules" :autoplay="autoplay" :loop="true" :centered-slides="true"
+      :slides-per-view="3" :space-between="20" :breakpoints="breakpoints" @swiper="onSwiperReady">
+      <SwiperSlide v-for="item in slideItems" :key="item.slideId" v-slot="{ isActive }">
+        <div class="chain-item" :class="{ 'is-active': isActive }" :style="{ '--accent-rgb': item.rgb }">
           <div class="icon" :class="item.key"></div>
 
           <Transition name="panel-fade">
-            <div
-              v-if="isActive"
-              class="sidebar-panel"
-            >
+            <div v-if="isActive" class="sidebar-panel">
               <p>{{ item.text }}</p>
             </div>
           </Transition>
@@ -44,12 +19,7 @@
       </SwiperSlide>
     </Swiper>
 
-    <button
-      class="nav-btn next"
-      type="button"
-      aria-label="Next"
-      @click="goNext"
-    >
+    <button class="nav-btn next" type="button" aria-label="Next" @click="goNext">
       ›
     </button>
   </div>
@@ -58,7 +28,15 @@
 <script setup>
 import { ref } from 'vue'
 import { Swiper, SwiperSlide } from 'swiper/vue'
+import { Autoplay } from 'swiper/modules'
 import 'swiper/css'
+
+const modules = [Autoplay]
+const autoplay = {
+  delay: 2500,
+  disableOnInteraction: false,
+  pauseOnMouseEnter: true,
+}
 
 const items = [
   {
@@ -154,8 +132,9 @@ const breakpoints = {
   cursor: pointer;
   z-index: 5;
   transition: all 0.35s;
+
   &:hover {
-    background: $primary-dark;
+    background: $primary-hover;
     transform: scale(1.08);
   }
 }
@@ -173,6 +152,7 @@ const breakpoints = {
     transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
     opacity 0.45s ease,
     filter 0.45s ease;
+
   &.is-active {
     transform: scale(1);
     opacity: 1;
@@ -212,16 +192,12 @@ const breakpoints = {
   text-align: center;
   color: #f2f2f5;
   background:
-    radial-gradient(
-      circle at 25% 15%,
+    radial-gradient(circle at 25% 15%,
       rgba(var(--accent-rgb), 0.14),
-      transparent 55%
-    ),
-    linear-gradient(
-      160deg,
+      transparent 55%),
+    linear-gradient(160deg,
       rgba(14, 14, 18, 0.86),
-      rgba(4, 4, 6, 0.94)
-    );
+      rgba(4, 4, 6, 0.94));
 
   backdrop-filter: blur(20px) saturate(160%);
   -webkit-backdrop-filter: blur(20px) saturate(160%);
@@ -245,8 +221,8 @@ const breakpoints = {
 .panel-fade-enter-active,
 .panel-fade-leave-active {
   transition:
-  opacity 0.4s ease,
-  transform 0.4s ease;
+    opacity 0.4s ease,
+    transform 0.4s ease;
 }
 
 .panel-fade-enter-from,

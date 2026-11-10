@@ -2,25 +2,10 @@
   <div class="chain-wrapper">
     <button class="nav-btn prev" @click="goPrev" aria-label="previous">‹</button>
 
-    <Swiper
-      class="chain-swiper"
-      :loop="true"
-      :centered-slides="true"
-      :slides-per-view="3"
-      :space-between="20"
-      :breakpoints="breakpoints"
-      @swiper="onSwiperReady"
-    >
-      <SwiperSlide
-        v-for="item in items"
-        :key="item.key"
-        v-slot="{ isActive }"
-      >
-        <div
-          class="chain-item"
-          :class="{ 'is-active': isActive }"
-          :style="{ '--accent-rgb': item.rgb }"
-        >
+    <Swiper class="chain-swiper" :modules="modules" :autoplay="autoplay" :loop="true" :centered-slides="true"
+      :slides-per-view="3" :space-between="20" :breakpoints="breakpoints" @swiper="onSwiperReady">
+      <SwiperSlide v-for="item in items" :key="item.key" v-slot="{ isActive }">
+        <div class="chain-item" :class="{ 'is-active': isActive }" :style="{ '--accent-rgb': item.rgb }">
           <div class="icon" :class="item.key"></div>
 
           <Transition name="panel-fade">
@@ -39,16 +24,24 @@
 <script setup>
 import { ref } from 'vue'
 import { Swiper, SwiperSlide } from 'swiper/vue'
+import { Autoplay } from 'swiper/modules'
 import 'swiper/css'
 
+const modules = [Autoplay]
+const autoplay = {
+  delay: 2500,
+  disableOnInteraction: false,
+  pauseOnMouseEnter: true,
+}
+
 const items = [
-  { key: 'flutter', rgb: '31,188,253',  text: 'Building responsive and cross-platform apps with Flutter for seamless experiences' },
-  { key: 'dart',    rgb: '8,88,156',    text: 'Building robust, scalable, and expressive applications with Dart for powerful foundations' },
-  { key: 'js',      rgb: '255,204,51',  text: 'I love turning complex problems into simple, elegant JavaScript solutions' },
-  { key: 'vue',     rgb: '66,211,146',  text: 'Crafting reactive, component-driven interfaces with Vue.js that feel alive and intuitive' },
-  { key: 'css',     rgb: '79,172,254',  text: 'Turning code into visually stunning and intuitive user experiences with CSS' },
-  { key: 'html',    rgb: '255,61,61',   text: 'Structuring the web with semantic, clean, and accessible HTML for solid foundations' },
-  { key: 'nuxt',    rgb: '255,255,255', text: 'Building high performance Vue apps with Nuxt.js for seamless user experiences' },
+  { key: 'flutter', rgb: '31,188,253', text: 'Building responsive and cross-platform apps with Flutter for seamless experiences' },
+  { key: 'dart', rgb: '8,88,156', text: 'Building robust, scalable, and expressive applications with Dart for powerful foundations' },
+  { key: 'js', rgb: '255,204,51', text: 'I love turning complex problems into simple, elegant JavaScript solutions' },
+  { key: 'vue', rgb: '66,211,146', text: 'Crafting reactive, component-driven interfaces with Vue.js that feel alive and intuitive' },
+  { key: 'css', rgb: '79,172,254', text: 'Turning code into visually stunning and intuitive user experiences with CSS' },
+  { key: 'html', rgb: '255,61,61', text: 'Structuring the web with semantic, clean, and accessible HTML for solid foundations' },
+  { key: 'nuxt', rgb: '255,255,255', text: 'Building high performance Vue apps with Nuxt.js for seamless user experiences' },
 ]
 
 const swiperInstance = ref(null)
@@ -60,9 +53,9 @@ const goPrev = () => swiperInstance.value?.slidePrev()
 const goNext = () => swiperInstance.value?.slideNext()
 
 const breakpoints = {
-  0:   { slidesPerView: 1.6, spaceBetween: 14 },
+  0: { slidesPerView: 1.6, spaceBetween: 14 },
   480: { slidesPerView: 2.2, spaceBetween: 18 },
-  768: { slidesPerView: 3,   spaceBetween: 26 },
+  768: { slidesPerView: 3, spaceBetween: 26 },
 }
 </script>
 
@@ -107,7 +100,7 @@ const breakpoints = {
   transition: all .35s;
 
   &:hover {
-    background: $primary-dark;
+    background: $primary-hover;
     transform: scale(1.08);
   }
 }
@@ -141,13 +134,33 @@ const breakpoints = {
   background-repeat: no-repeat;
   flex-shrink: 0;
 
-  &.js      { background-image: url('~/assets/images/Js.png'); }
-  &.vue     { background-image: url('~/assets/images/Vue.png'); }
-  &.css     { background-image: url('~/assets/images/css.webp'); }
-  &.html    { background-image: url('~/assets/images/html.webp'); }
-  &.nuxt    { background-image: url('~/assets/images/nuxt.jpg'); }
-  &.dart    { background-image: url('~/assets/images/dart.png'); }
-  &.flutter { background-image: url('~/assets/images/flutter.png'); }
+  &.js {
+    background-image: url('~/assets/images/Js.png');
+  }
+
+  &.vue {
+    background-image: url('~/assets/images/Vue.png');
+  }
+
+  &.css {
+    background-image: url('~/assets/images/css.webp');
+  }
+
+  &.html {
+    background-image: url('~/assets/images/html.webp');
+  }
+
+  &.nuxt {
+    background-image: url('~/assets/images/nuxt.jpg');
+  }
+
+  &.dart {
+    background-image: url('~/assets/images/dart.png');
+  }
+
+  &.flutter {
+    background-image: url('~/assets/images/flutter.png');
+  }
 }
 
 .sidebar-panel {
@@ -179,6 +192,7 @@ const breakpoints = {
 .panel-fade-enter-active {
   transition: all 0.4s ease 0.1s;
 }
+
 .panel-fade-enter-from {
   opacity: 0;
   transform: translateY(10px);
@@ -188,20 +202,26 @@ const breakpoints = {
   .chain-wrapper {
     gap: 6px;
   }
+
   .nav-btn {
     width: 36px;
     height: 36px;
     font-size: 20px;
   }
+
   .icon {
     height: 70px;
     width: 120px;
     background-size: 110px;
   }
+
   .sidebar-panel {
     width: 52vw;
     padding: 16px 14px;
-    p { font-size: 11px; }
+
+    p {
+      font-size: 11px;
+    }
   }
 }
 </style>
