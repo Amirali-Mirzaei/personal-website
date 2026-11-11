@@ -1,69 +1,41 @@
 <template>
   <div class="chain-wrapper">
-    <button class="nav-btn prev" @click="goPrev" aria-label="previous">‹</button>
-
-    <Swiper class="chain-swiper" :modules="modules" :autoplay="autoplay" :loop="true" :centered-slides="true"
-      :slides-per-view="3" :space-between="20" :breakpoints="breakpoints" @swiper="onSwiperReady">
-      <SwiperSlide v-for="item in items" :key="item.key" v-slot="{ isActive }">
-        <div class="chain-item" :class="{ 'is-active': isActive }" :style="{ '--accent-rgb': item.rgb }">
+    <div class="chain-viewport">
+      <div class="chain-track">
+        <div
+          v-for="item in loopItems"
+          :key="item.id"
+          class="chain-item"
+          :style="{ '--accent-rgb': item.rgb }"
+        >
           <div class="icon" :class="item.key"></div>
-
-          <Transition name="panel-fade">
-            <div v-if="isActive" class="sidebar-panel">
-              <p>{{ item.text }}</p>
-            </div>
-          </Transition>
+          <span class="label">{{ item.label }}</span>
         </div>
-      </SwiperSlide>
-    </Swiper>
-
-    <button class="nav-btn next" @click="goNext" aria-label="next">›</button>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { Swiper, SwiperSlide } from 'swiper/vue'
-import { Autoplay } from 'swiper/modules'
-import 'swiper/css'
-
-const modules = [Autoplay]
-const autoplay = {
-  delay: 2500,
-  disableOnInteraction: false,
-  pauseOnMouseEnter: true,
-}
+import { computed } from 'vue'
 
 const items = [
-  { key: 'flutter', rgb: '31,188,253', text: 'Building responsive and cross-platform apps with Flutter for seamless experiences' },
-  { key: 'dart', rgb: '8,88,156', text: 'Building robust, scalable, and expressive applications with Dart for powerful foundations' },
-  { key: 'js', rgb: '255,204,51', text: 'I love turning complex problems into simple, elegant JavaScript solutions' },
-  { key: 'vue', rgb: '66,211,146', text: 'Crafting reactive, component-driven interfaces with Vue.js that feel alive and intuitive' },
-  { key: 'css', rgb: '79,172,254', text: 'Turning code into visually stunning and intuitive user experiences with CSS' },
-  { key: 'html', rgb: '255,61,61', text: 'Structuring the web with semantic, clean, and accessible HTML for solid foundations' },
-  { key: 'nuxt', rgb: '255,255,255', text: 'Building high performance Vue apps with Nuxt.js for seamless user experiences' },
+  { key: 'flutter', label: 'Flutter', rgb: '31,188,253' },
+  { key: 'dart', label: 'Dart', rgb: '42,140,220' },
+  { key: 'js', label: 'JavaScript', rgb: '255,204,51' },
+  { key: 'vue', label: 'Vue.js', rgb: '66,211,146' },
+  { key: 'css', label: 'CSS', rgb: '79,172,254' },
+  { key: 'html', label: 'HTML', rgb: '255,61,61' },
+  { key: 'nuxt', label: 'Nuxt.js', rgb: '255,255,255' },
 ]
 
-const swiperInstance = ref(null)
-const onSwiperReady = (swiper) => {
-  swiperInstance.value = swiper
-}
-
-const goPrev = () => swiperInstance.value?.slidePrev()
-const goNext = () => swiperInstance.value?.slideNext()
-
-const breakpoints = {
-  0: { slidesPerView: 1.6, spaceBetween: 14 },
-  480: { slidesPerView: 2.2, spaceBetween: 18 },
-  768: { slidesPerView: 3, spaceBetween: 26 },
-}
+const loopItems = computed(() =>
+  [...items, ...items].map((item, i) => ({ ...item, id: `${item.key}-${i}` }))
+)
 </script>
 
 <style lang="scss" scoped>
 .chain-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 12px;
   width: 100%;
   max-width: 900px;
   margin: 0 auto;
@@ -71,57 +43,50 @@ const breakpoints = {
   background: transparent;
 }
 
-.chain-swiper {
-  flex: 1;
-  padding: 30px 0;
+.chain-viewport {
   overflow: hidden;
+  padding: 20px 0;
+  mask-image: linear-gradient(to right, transparent 0%, #000 12%, #000 88%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 12%, #000 88%, transparent 100%);
 }
 
-:deep(.swiper-slide) {
+.chain-track {
   display: flex;
-  justify-content: center;
+  width: max-content;
+  gap: 40px;
+  padding-right: 40px; 
+  animation: chain-scroll 30s linear infinite;
+  will-change: transform;
 }
 
-.nav-btn {
-  flex-shrink: 0;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  border: 1px solid transparent;
-  background: $primary;
-  color: $text-light;
-  font-size: 26px;
-  line-height: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  z-index: 5;
-  transition: all .35s;
+.chain-viewport:hover .chain-track {
+  animation-play-state: paused;
+}
 
-  &:hover {
-    background: $primary-hover;
-    transform: scale(1.08);
-  }
+@keyframes chain-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
 }
 
 .chain-item {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
-  transform: scale(0.72);
-  opacity: 0.35;
-  filter: blur(1px);
-  transition:
-    transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
-    opacity 0.45s ease,
-    filter 0.45s ease;
+  gap: 10px;
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
 
-  &.is-active {
-    transform: scale(1);
-    opacity: 1;
-    filter: none;
+  &:hover {
+    transform: translateY(-4px);
+
+    .label {
+      letter-spacing: 3px;
+      text-shadow: 0 0 16px rgba(var(--accent-rgb), 0.7);
+    }
+
+    .label::after {
+      width: 100%;
+    }
   }
 }
 
@@ -133,80 +98,46 @@ const breakpoints = {
   background-position: center;
   background-repeat: no-repeat;
   flex-shrink: 0;
+  transition: filter 0.3s ease;
 
-  &.js {
-    background-image: url('~/assets/images/Js.png');
-  }
-
-  &.vue {
-    background-image: url('~/assets/images/Vue.png');
-  }
-
-  &.css {
-    background-image: url('~/assets/images/css.webp');
-  }
-
-  &.html {
-    background-image: url('~/assets/images/html.webp');
-  }
-
-  &.nuxt {
-    background-image: url('~/assets/images/nuxt.jpg');
-  }
-
-  &.dart {
-    background-image: url('~/assets/images/dart.png');
-  }
-
-  &.flutter {
-    background-image: url('~/assets/images/flutter.png');
-  }
+  &.js { background-image: url('~/assets/images/Js.png'); }
+  &.vue { background-image: url('~/assets/images/Vue.png'); }
+  &.css { background-image: url('~/assets/images/css.webp'); }
+  &.html { background-image: url('~/assets/images/html.webp'); }
+  &.nuxt { background-image: url('~/assets/images/nuxt.jpg'); }
+  &.dart { background-image: url('~/assets/images/dart.png'); }
+  &.flutter { background-image: url('~/assets/images/flutter.png'); }
 }
 
-.sidebar-panel {
-  width: clamp(200px, 55vw, 280px);
-  padding: 20px 18px;
-  border-radius: 16px;
-  text-align: center;
-  color: #f2f2f5;
-  background:
-    radial-gradient(circle at 25% 15%, rgba(var(--accent-rgb), 0.14), transparent 55%),
-    linear-gradient(160deg, rgba(14, 14, 18, 0.86), rgba(4, 4, 6, 0.94));
-  backdrop-filter: blur(20px) saturate(160%);
-  -webkit-backdrop-filter: blur(20px) saturate(160%);
-  border: 1px solid rgba(var(--accent-rgb), 0.4);
-  box-shadow:
-    0 10px 28px rgba(0, 0, 0, 0.55),
-    0 0 45px -10px rgba(var(--accent-rgb), 0.35);
+.label {
+  position: relative;
+  padding-bottom: 6px;
+  font-size: 13px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: rgb(var(--accent-rgb));
+  transition: letter-spacing 0.3s ease, text-shadow 0.3s ease;
 
-  p {
-    margin: 0;
-    font-size: 14px;
-    font-weight: 600;
-    letter-spacing: 0.35px;
-    line-height: 1.5;
-    text-shadow: 0 0 14px rgba(var(--accent-rgb), 0.4), 0 1px 2px rgba(0, 0, 0, 0.6);
+  &::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    width: 0;
+    height: 1px;
+    transform: translateX(-50%);
+    background: linear-gradient(to right, transparent, rgba(var(--accent-rgb), 0.9), transparent);
+    transition: width 0.35s ease;
   }
-}
-
-.panel-fade-enter-active {
-  transition: all 0.4s ease 0.1s;
-}
-
-.panel-fade-enter-from {
-  opacity: 0;
-  transform: translateY(10px);
 }
 
 @media (max-width: 600px) {
-  .chain-wrapper {
-    gap: 6px;
-  }
-
-  .nav-btn {
-    width: 36px;
-    height: 36px;
-    font-size: 20px;
+  .chain-track {
+    gap: 24px;
+    padding-right: 24px;
+    animation-duration: 24s;
   }
 
   .icon {
@@ -215,13 +146,9 @@ const breakpoints = {
     background-size: 110px;
   }
 
-  .sidebar-panel {
-    width: 52vw;
-    padding: 16px 14px;
-
-    p {
-      font-size: 11px;
-    }
+  .label {
+    font-size: 11px;
+    letter-spacing: 1.5px;
   }
 }
 </style>
