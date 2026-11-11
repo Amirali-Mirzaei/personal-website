@@ -4,8 +4,8 @@
       ‹
     </button>
 
-    <Swiper class="chain-swiper" :modules="modules" :autoplay="autoplay" :loop="true" :centered-slides="true"
-      :slides-per-view="3" :space-between="20" :breakpoints="breakpoints" @swiper="onSwiperReady">
+    <Swiper class="chain-swiper" :modules="modules" :loop="true" :centered-slides="true" :slides-per-view="3"
+      :space-between="20" :breakpoints="breakpoints" @swiper="onSwiperReady">
       <SwiperSlide v-for="item in slideItems" :key="item.slideId" v-slot="{ isActive }">
         <div class="chain-item" :class="{ 'is-active': isActive }" :style="{ '--accent-rgb': item.rgb }">
           <div class="icon" :class="item.key"></div>
@@ -28,15 +28,10 @@
 <script setup>
 import { ref } from 'vue'
 import { Swiper, SwiperSlide } from 'swiper/vue'
-import { Autoplay } from 'swiper/modules'
 import 'swiper/css'
 
-const modules = [Autoplay]
-const autoplay = {
-  delay: 2500,
-  disableOnInteraction: false,
-  pauseOnMouseEnter: true,
-}
+// بدون Autoplay؛ ماژول‌ها خالی هستن
+const modules = []
 
 const items = [
   {
@@ -122,7 +117,7 @@ const breakpoints = {
   height: 44px;
   border-radius: 50%;
   border: 1px solid transparent;
-  background: $primary;
+  background: $primary-hover;
   color: $text-light;
   font-size: 26px;
   line-height: 1;
@@ -134,7 +129,6 @@ const breakpoints = {
   transition: all 0.35s;
 
   &:hover {
-    background: $primary-hover;
     transform: scale(1.08);
   }
 }
@@ -202,9 +196,6 @@ const breakpoints = {
   backdrop-filter: blur(20px) saturate(160%);
   -webkit-backdrop-filter: blur(20px) saturate(160%);
   border: 1px solid rgba(var(--accent-rgb), 0.4);
-  box-shadow:
-    0 10px 28px rgba(0, 0, 0, 0.55),
-    0 0 45px -10px rgba(var(--accent-rgb), 0.35);
 
   p {
     margin: 0;
